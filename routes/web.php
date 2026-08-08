@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DepartmentController;
 
 // Home
 Route::get('/', function () {
@@ -27,9 +28,7 @@ Route::get('/employees', function () {
 })->name('employees');
 
 // Departments
-Route::get('/departments', function () {
-    return 'Departments';
-})->name('departments');
+Route::resource('departments', DepartmentController::class);
 
 // Positions
 Route::get('/positions', function () {
