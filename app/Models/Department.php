@@ -6,14 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\User;
 
-class Position extends Model
+class Department extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name'
+        'name',
+        'description',
     ];
 
+    
     public function users()
     {
         return $this->hasMany(User::class);

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DepartmentController;
 
 // Home
 Route::get('/', function () {
@@ -27,9 +28,7 @@ Route::get('/dashboard', function () {
 Route::resource('employees', EmployeeController::class);
 
 // Departments
-Route::get('/departments', function () {
-    return 'Departments';
-})->name('departments');
+Route::resource('departments', DepartmentController::class);
 
 // Positions
 Route::get('/positions', function () {
