@@ -52,4 +52,8 @@ public function position()
 {
     return $this->belongsTo(Position::class);
  }
+ public function managedDepartments()
+{
+    return $this->hasMany(Department::class, 'manager_id');
+}
 }

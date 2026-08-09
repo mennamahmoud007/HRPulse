@@ -11,18 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-       Schema::create('salaries', function (Blueprint $table) {
-    $table->id();
+        Schema::create('salaries', function (Blueprint $table) {
+            $table->id();
 
-    $table->foreignId('employee_id')->constrained('users')->cascadeOnDelete();
-    
-    $table->decimal('amount', 10, 2);
+            $table->foreignId('employee_id')
+                  ->constrained('users')
+                  ->cascadeOnDelete();
 
-    $table->date('from_date')->nullable();
-    $table->date('to_date')->nullable();
+            $table->decimal('basic', 10, 2);
+            $table->decimal('bonus', 10, 2)->default(0);
+            $table->decimal('deduction', 10, 2)->default(0);
+            $table->decimal('net_salary', 10, 2);
 
-    $table->timestamps();
-});
+            $table->date('from_date')->nullable();
+            $table->date('to_date')->nullable();
+
+            $table->timestamps();
+        });
     }
 
     /**
