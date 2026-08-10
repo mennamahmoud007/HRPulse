@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmployeeController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DepartmentController;
 
 
@@ -23,7 +22,7 @@ Route::post('/logout', [AuthController::class, 'logout'])
     ->name('logout');
 
 
-// Dashboard
+// Employee Dashboard
 
 Route::get('/dashboard', function () {
     return view('dashboard.employee');
