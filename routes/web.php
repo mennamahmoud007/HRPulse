@@ -23,13 +23,16 @@ Route::post('/logout', [AuthController::class, 'logout'])
     ->name('logout');
 
 
+// Dashboard
+
+Route::get('/dashboard', function () {
+    return view('dashboard.dashboard');
+})->middleware(['auth', 'role:employee'])->name('dashboard');
+
+
 // Employee
 
 Route::middleware(['auth', 'role:employee'])->group(function () {
-
-    Route::get('/dashboard', function () {
-        return 'Employee Dashboard';
-    })->name('dashboard');
 
     Route::get('/profile', function () {
         return 'Profile';

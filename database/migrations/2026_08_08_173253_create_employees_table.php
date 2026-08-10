@@ -14,18 +14,17 @@ return new class extends Migration
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
 
-
              $table->foreignId('user_id')
                 ->constrained('users')
                 ->cascadeOnDelete();
 
-            // $table->foreignId('department_id')
-            //     ->constrained('departments')
-            //     ->restrictOnDelete();
+            $table->foreignId('department_id')
+                ->constrained('departments')
+                ->restrictOnDelete();
 
-            // $table->foreignId('position_id')
-            //     ->constrained('positions')
-            //     ->restrictOnDelete();
+            $table->foreignId('position_id')
+                ->constrained('positions')
+                ->restrictOnDelete();
 
             $table->string('address')->nullable();
             $table->string('phone')->nullable();
