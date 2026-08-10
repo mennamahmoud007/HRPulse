@@ -13,12 +13,19 @@ class Department extends Model
     protected $fillable = [
         'name',
         'description',
+        'manager_id',
     ];
 
-    
-    public function users()
+    // Department has many Positions
+    public function positions()
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(Position::class);
+    }
+
+    // Department belongs to Manager (User)
+    public function manager()
+    {
+        return $this->belongsTo(User::class, 'manager_id');
     }
     
     public function employees()
