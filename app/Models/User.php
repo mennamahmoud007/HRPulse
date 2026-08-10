@@ -8,9 +8,11 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Role;
 
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable(['name', 'email', 'password','role_id'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -29,4 +31,29 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+
+
+    public function role():BelongsTo{
+        return $this->belongsTo(Role::class);
+    }
+
+    public function salaries()
+{
+    return $this->hasMany(Salary::class);
+}
+
+public function department()
+{
+    return $this->belongsTo(Department::class);
+}
+
+public function position()
+{
+    return $this->belongsTo(Position::class);
+ }
+ public function managedDepartments()
+{
+    return $this->hasMany(Department::class, 'manager_id');
+}
 }

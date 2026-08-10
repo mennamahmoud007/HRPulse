@@ -1,65 +1,76 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DepartmentController;
 
-// Home
-Route::get('/', function () {
-    return redirect('/login');
-});
 
 // Authentication
-Route::get('/login', function () {
-    return 'Login Page';
-})->name('login');
 
-Route::get('/register', function () {
-    return 'Register Page';
-})->name('register');
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::get('/register', [AuthController::class, 'showRegister'])
+    ->name('register');
+
+Route::post('/register', [AuthController::class, 'register']);
+
+Route::post('/logout', [AuthController::class, 'logout'])
+    ->name('logout');
+
 
 // Dashboard
 Route::get('/dashboard', function () {
     return 'Dashboard';
 })->name('dashboard');
 
+
 // Employees
-Route::get('/employees', function () {
-    return 'Employees';
-})->name('employees');
+Route::resource('employees', EmployeeController::class);
+
 
 // Departments
-Route::get('/departments', function () {
-    return 'Departments';
-})->name('departments');
+Route::resource('departments', DepartmentController::class);
+
 
 // Positions
 Route::get('/positions', function () {
     return 'Positions';
 })->name('positions');
 
+
 // Salaries
 Route::get('/salaries', function () {
     return 'Salaries';
 })->name('salaries');
+
 
 // Attendance
 Route::get('/attendance', function () {
     return 'Attendance';
 })->name('attendance');
 
+
 // Leave Requests
 Route::get('/leave-requests', function () {
     return 'Leave Requests';
 })->name('leave-requests');
+
 
 // Performance
 Route::get('/performance', function () {
     return 'Performance';
 })->name('performance');
 
+
 // Reports
 Route::get('/reports', function () {
     return 'Reports';
 })->name('reports');
+
 
 // Profile
 Route::get('/profile', function () {
