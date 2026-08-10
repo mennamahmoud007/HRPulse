@@ -23,7 +23,7 @@
             <label>email</label>
             <input type="email" name="email">
             <label></label>password</label>
-            <input type="password" name="confirm">
+            <input type="password" name="password">
             <button type="submit">login</button>
 
         </form>
