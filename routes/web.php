@@ -26,8 +26,8 @@ Route::post('/logout', [AuthController::class, 'logout'])
 // Dashboard
 
 Route::get('/dashboard', function () {
-    return view('dashboard.dashboard');
-})->middleware(['auth', 'role:employee'])->name('dashboard');
+    return view('dashboard.employee');
+})->middleware(['auth', 'role:employee'])->name('employee.dashboard');
 
 
 // Employee
