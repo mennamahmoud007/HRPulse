@@ -1,32 +1,190 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>login</title>
-    </head>
-    <body>
-        @if ($errors->any())
-            @foreach ($errors->all() as $error )
-                <p>{{ $error }}</p>
-            
-            @endforeach
-        
-        @endif
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login - HR Management System</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <style>
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 15px;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 430px;
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .login-card h1 {
+            font-weight: 700;
+            color: #333;
+        }
+
+        .form-control {
+            padding: 12px;
+            border-radius: 10px;
+        }
+
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+        }
+
+        .btn-login {
+            background-color: #667eea;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .btn-login:hover {
+            background-color: #5568d9;
+        }
+
+        .register-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .register-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-card">
+
+        <div class="text-center mb-4">
+
+            <h1>Welcome Back 👋</h1>
+
+            <p class="text-muted">
+                Login to your HR Management account
+            </p>
+
+        </div>
+
+
+        {{-- Success Message --}}
 
         @if (session('success'))
-            <p>{{ session('success') }}</p>
-        
+
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+
         @endif
 
 
-        <form method="post" action="{{ route('login') }}">
+        {{-- Validation Errors --}}
+
+        @if ($errors->any())
+
+            <div class="alert alert-danger">
+
+                <ul class="mb-0">
+
+                    @foreach ($errors->all() as $error)
+
+                        <li>{{ $error }}</li>
+
+                    @endforeach
+
+                </ul>
+
+            </div>
+
+        @endif
+
+
+        <form method="POST" action="{{ route('login') }}">
+
             @csrf
-            <label>email</label>
-            <input type="email" name="email">
-            <label></label>password</label>
-            <input type="password" name="confirm">
-            <button type="submit">login</button>
+
+
+            {{-- Email --}}
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    name="email"
+                    class="form-control"
+                    value="{{ old('email') }}"
+                    placeholder="Enter your email"
+                    required
+                >
+
+            </div>
+
+
+            {{-- Password --}}
+
+            <div class="mb-4">
+
+                <label class="form-label">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    name="password"
+                    class="form-control"
+                    placeholder="Enter your password"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="btn btn-primary btn-login w-100">
+                Login
+            </button>
 
         </form>
-        <a href="{{ route('register')}}">Create Account</a>
-    </body>
+
+
+        <div class="text-center mt-4">
+
+            <span class="text-muted">
+                Don't have an account?
+            </span>
+
+            <a
+                href="{{ route('register') }}"
+                class="register-link">
+                Create Account
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+
 </html>

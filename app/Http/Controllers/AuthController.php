@@ -43,25 +43,39 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function login(Request $request)
-    {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+  public function login(Request $request)
+{
+    $credentials = $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
+    if (Auth::attempt($credentials)) {
 
-            return redirect()->route('dashboard');
-        }
+        $request->session()->regenerate();
 
-        return back()
-            ->withErrors([
-                'email' => 'The email or password is incorrect.',
-            ])
-            ->onlyInput('email');
+        $user = Auth::user();
+
+        return match ($user->role->name) {
+
+            'employee' => redirect()->route('employee.dashboard'),
+
+            'hr' => redirect()->route('hr.dashboard'),
+
+            'manager' => redirect()->route('manager.dashboard'),
+
+            'admin' => redirect()->route('admin.dashboard'),
+
+            default => abort(403),
+        };
     }
+
+    return back()
+        ->withErrors([
+            'email' => 'The email or password is incorrect.',
+        ])
+        ->onlyInput('email');
+}
 
     public function logout(Request $request)
     {
