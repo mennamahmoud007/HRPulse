@@ -60,8 +60,6 @@ Route::middleware(['auth', 'role:employee'])->group(function () {
 
 });
 
-
-
 // HR
 
 Route::middleware(['auth', 'role:hr'])->group(function () {

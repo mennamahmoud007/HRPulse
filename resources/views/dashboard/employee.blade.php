@@ -1,7 +1,10 @@
+@extends('layouts.app')
+
+@section('content')
 <!DOCTYPE html>
 <html lang="ar">
-<head>
-    <meta charset="UTF-8">
+    <head>
+        <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HR Dashboard - HRPulse</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -14,17 +17,17 @@
         .badge-type { background-color: #312e81; color: #818cf8; }
         .avatar { width: 40px; height: 40px; border-radius: 50%; background: #6366f1; display: flex; align-items: center; justify-content: center; font-weight: bold; }
         .table-custom { --bs-table-bg: transparent; --bs-table-color: #cbd5e1; }
-    </style>
+        </style>
 </head>
 <body class="p-4">
-
+    
     <div class="container-fluid">
         <!-- Header -->
         <div class="mb-4">
             <h2 class="fw-bold">HR Dashboard</h2>
             <p class="text-secondary">Wednesday, August 6, 2026</p>
         </div>
-
+        
         <!-- 4 KPI Cards -->
         <div class="row g-3 mb-4">
             <div class="col-md-3">
@@ -65,7 +68,7 @@
                 </div>
             </div>
         </div>
-
+        
         <!-- Tables Row -->
         <div class="row g-4">
             <!-- Recent Employees -->
@@ -103,7 +106,7 @@
                     </table>
                 </div>
             </div>
-
+            
             <!-- Recent Leave Requests -->
             <div class="col-md-6">
                 <div class="card-custom p-3">
@@ -140,6 +143,7 @@
             </div>
         </div>
     </div>
-
+    
 </body>
 </html>
+@endsection
