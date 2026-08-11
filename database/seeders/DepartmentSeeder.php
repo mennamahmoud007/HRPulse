@@ -18,14 +18,21 @@ class DepartmentSeeder extends Seeder
             ['name' => 'Marketing', 'manager_name' => 'Zeinab Khaled'],
             ['name' => 'Finance', 'manager_name' => 'Yostina Tarek'],
         ];
+        $desc = [
+            'Engineering' => 'Responsible for designing, developing, and maintaining software applications and systems.',
+            'IT' => 'Manages the organization\'s technology infrastructure, including hardware, software, and networks.',
+            'Human Resources' => 'Handles employee relations, recruitment, training, and benefits administration.',
+            'Marketing' => 'Promotes the organization\'s products or services through advertising, branding, and market research.',
+            'Finance' => 'Manages the organization\'s financial resources, including budgeting, accounting, and financial reporting.',
+        ];
 
         foreach ($departments as $dept) {
             $managerUser = User::where('name', $dept['manager_name'])->first();
-            $manager = Employee::where('user_id', $managerUser?->id)->first();
 
             Department::create([
                 'name' => $dept['name'],
-                'manager_id' => $manager?->id,
+                'description' => $desc[$dept['name']],
+                'manager_id' => $managerUser?->id,
             ]);
         }
     }

@@ -27,7 +27,7 @@ class Department extends Model
     // Department belongs to Manager (Employee)
     public function manager()
     {
-        return $this->belongsTo(Employee::class, 'manager_id');
+        return $this->belongsTo(User::class, 'manager_id');
     }
     
     public function employees()

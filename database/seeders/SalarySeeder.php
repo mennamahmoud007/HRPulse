@@ -10,8 +10,7 @@ class SalarySeeder extends Seeder
 {
     public function run(): void
     {
-        // Get only the 10 new employees
-        $employees = Employee::where('id', '>', 5)->get();
+        $employees = Employee::all();
 
         foreach ($employees as $employee) {
 

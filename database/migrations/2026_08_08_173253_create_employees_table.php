@@ -19,12 +19,11 @@ return new class extends Migration
                 ->cascadeOnDelete();
 
             $table->foreignId('department_id')
+                ->nullable()
                 ->constrained('departments')
-                ->restrictOnDelete();
+                ->nullOnDelete();
 
-            $table->foreignId('position_id')
-                ->constrained('positions')
-                ->restrictOnDelete();
+            $table->unsignedBigInteger('position_id')->nullable();
 
             $table->string('address')->nullable();
             $table->string('phone')->nullable();

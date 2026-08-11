@@ -25,12 +25,17 @@ class EmployeeSeeder extends Seeder
                 [
                     'name' => $manager['name'],
                     'password' => bcrypt('123456'),
+                    'email_verified_at' => now(),
                 ]
             );
 
             Employee::firstOrCreate(
                 ['user_id' => $user->id],
                 [
+                    'address' => fake()->address(),
+                    'phone' => fake()->phoneNumber(),
+                    'photo' => 'https://picsum.photos/200/200?random=' . fake()->unique()->numberBetween(1, 1000),
+                    'hire_date' => fake()->dateTimeBetween('-5 years', 'now'),
                     'status' => 'active',
                 ]
             );
