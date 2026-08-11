@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Models\User;
+use App\Models\Employee;
 
 class Salary extends Model
 {
@@ -20,9 +20,9 @@ class Salary extends Model
         'to_date',
     ];
 
-    // Salary belongs to Employee (User)
+    // Salary belongs to Employee through employee's user_id
     public function employee()
     {
-        return $this->belongsTo(User::class, 'employee_id');
+        return $this->belongsTo(Employee::class, 'employee_id', 'user_id');
     }
 }

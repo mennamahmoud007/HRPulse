@@ -18,7 +18,9 @@ class DepartmentController extends Controller
     // Show create form
     public function create()
     {
-        return view('departments.create');
+        $managers = \App\Models\Employee::with('user')->get();
+
+        return view('departments.create', compact('managers'));
     }
 
     // Store new department
@@ -34,7 +36,9 @@ class DepartmentController extends Controller
     // Show edit form
     public function edit(Department $department)
     {
-        return view('departments.edit', compact('department'));
+        $managers = \App\Models\Employee::with('user')->get();
+
+    return view('departments.edit', compact('department', 'managers'));
     }
 
     // Update department
@@ -56,4 +60,9 @@ class DepartmentController extends Controller
             ->route('departments.index')
             ->with('success', 'Department deleted successfully.');
     }
+
+    public function manager()
+{
+    return $this->belongsTo(\App\Models\Employee::class, 'manager_id');
+}
 }

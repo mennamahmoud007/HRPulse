@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\DepartmentController;
-
+use App\Http\Controllers\PositionController;
+use App\Http\Controllers\SalaryController;
 
 // Authentication
 
@@ -85,6 +86,17 @@ Route::middleware(['auth', 'role:hr'])->group(function () {
     })->name('reports');
 
 });
+
+
+// Positions
+
+Route::resource('positions', PositionController::class);
+
+
+// Salaries
+
+Route::get('/salaries', [SalaryController::class, 'index'])
+    ->name('salaries');
 
 
 // Manager

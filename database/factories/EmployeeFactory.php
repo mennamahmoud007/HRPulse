@@ -14,6 +14,7 @@ use App\Models\User;
 class EmployeeFactory extends Factory
 {
     protected $model = Employee::class;
+
     /**
      * Define the model's default state.
      *
@@ -28,7 +29,8 @@ class EmployeeFactory extends Factory
             'address' => fake()->address(),
             'phone' => fake()->phoneNumber(),
             'photo' => null,
-            'hire_date' => fake()->date(),
+            'hire_date' => fake()->dateTimeBetween('-3 years', 'now'),
+            'status' => 'active',
         ];
     }
 }
