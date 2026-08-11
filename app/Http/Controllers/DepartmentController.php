@@ -10,7 +10,7 @@ class DepartmentController extends Controller
     // Display all departments
     public function index()
     {
-        $departments = Department::latest()->paginate(10);
+        $departments = Department::with('manager')->latest()->paginate(10);
 
         return view('departments.index', compact('departments'));
     }
@@ -61,8 +61,4 @@ class DepartmentController extends Controller
             ->with('success', 'Department deleted successfully.');
     }
 
-    public function manager()
-{
-    return $this->belongsTo(\App\Models\Employee::class, 'manager_id');
-}
 }
