@@ -31,6 +31,13 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    protected $fillable = [
+    'name',
+    'email',
+    'password',
+    'phone',    // <-- ضيفي ده
+    'address',  // <-- ضيفي ده
+];
 
 
 

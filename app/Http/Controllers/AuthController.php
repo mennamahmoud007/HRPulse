@@ -10,29 +10,29 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    // عرض صفحة إنشاء حساب
     public function showRegister()
     {
-        $roles=Role::all();
-        return view('auth.register',compact('roles'));
+        $roles = Role::all();
+        return view('auth.register', compact('roles'));
     }
 
+    // تنفيذ إنشاء الحساب
     public function register(Request $request)
     {
         $validation = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8',
+            'name'             => 'required|string|max:255',
+            'email'            => 'required|email|unique:users,email',
+            'password'         => 'required|min:8',
             'confirm_password' => 'required|same:password',
-            'role_id'=>'required | exists:roles,id',
+            'role_id'          => 'required|exists:roles,id',
         ]);
 
-       // $employeeRole = Role::where('name', 'employee')->first();
-
         User::create([
-            'name' => $validation['name'],
-            'email' => $validation['email'],
+            'name'     => $validation['name'],
+            'email'    => $validation['email'],
             'password' => Hash::make($validation['password']),
-            'role_id' => $validation['role_id'],
+            'role_id'  => $validation['role_id'],
         ]);
 
         return redirect()
@@ -40,45 +40,42 @@ class AuthController extends Controller
             ->with('success', 'Registration successful. Please login.');
     }
 
+    // عرض صفحة تسجيل الدخول
     public function showLogin()
     {
         return view('auth.login');
     }
 
-  public function login(Request $request)
-{
-    $credentials = $request->validate([
-        'email' => 'required|email',
-        'password' => 'required',
-    ]);
+    // تنفيذ عملية تسجيل الدخول
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'email'    => 'required|email',
+            'password' => 'required',
+        ]);
 
-    if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
 
-        $request->session()->regenerate();
+            $user = Auth::user();
 
-        $user = Auth::user();
+            return match ($user->role->name) {
+                'employee' => redirect()->route('employee.dashboard'),
+                'hr'       => redirect()->route('hr.dashboard'),
+                'manager'  => redirect()->route('manager.dashboard'),
+                'admin'    => redirect()->route('admin.dashboard'),
+                default    => abort(403),
+            };
+        }
 
-        return match ($user->role->name) {
-
-            'employee' => redirect()->route('employee.dashboard'),
-
-            'hr' => redirect()->route('hr.dashboard'),
-
-            'manager' => redirect()->route('manager.dashboard'),
-
-            'admin' => redirect()->route('admin.dashboard'),
-
-            default => abort(403),
-        };
+        return back()
+            ->withErrors([
+                'email' => 'The email or password is incorrect.',
+            ])
+            ->onlyInput('email');
     }
 
-    return back()
-        ->withErrors([
-            'email' => 'The email or password is incorrect.',
-        ])
-        ->onlyInput('email');
-}
-
+    // تسجيل الخروج
     public function logout(Request $request)
     {
         Auth::logout();
@@ -86,6 +83,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login');
+        return redirect('/login');
     }
 }
