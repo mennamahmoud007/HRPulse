@@ -6,6 +6,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\SalaryController;
+use App\Http\Controllers\ProfileController;
 
 // Authentication
 
@@ -22,6 +23,17 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])
     ->name('logout');
 
+// Profile
+
+Route::middleware('auth')->group(function () {
+
+    Route::get('/profile', [ProfileController::class, 'show'])
+        ->name('profile');
+
+    Route::put('/profile', [ProfileController::class, 'update'])
+        ->name('profile.update');
+
+});
 
 // Employee Dashboard
 
@@ -33,10 +45,6 @@ Route::get('/dashboard', function () {
 // Employee
 
 Route::middleware(['auth', 'role:employee'])->group(function () {
-
-    Route::get('/profile', function () {
-        return 'Profile';
-    })->name('profile');
 
     Route::get('/salaries', function () {
         return 'Salaries';
@@ -55,7 +63,6 @@ Route::middleware(['auth', 'role:employee'])->group(function () {
 
 
 // HR
-    Route::resource('employees', EmployeeController::class);
 
 Route::middleware(['auth', 'role:hr'])->group(function () {
 
@@ -63,7 +70,7 @@ Route::middleware(['auth', 'role:hr'])->group(function () {
         return 'HR Dashboard';
     })->name('hr.dashboard');
 
-    //Route::resource('employees', EmployeeController::class);
+    Route::resource('employees', EmployeeController::class);
 
     Route::resource('departments', DepartmentController::class);
 
