@@ -12,7 +12,8 @@ class AuthController extends Controller
 {
     public function showRegister()
     {
-        return view('auth.register');
+        $roles=Role::all();
+        return view('auth.register',compact('roles'));
     }
 
     public function register(Request $request)
@@ -22,15 +23,16 @@ class AuthController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8',
             'confirm_password' => 'required|same:password',
+            'role_id'=>'required | exists:roles,id',
         ]);
 
-        $employeeRole = Role::where('name', 'employee')->first();
+       // $employeeRole = Role::where('name', 'employee')->first();
 
         User::create([
             'name' => $validation['name'],
             'email' => $validation['email'],
             'password' => Hash::make($validation['password']),
-            'role_id' => $employeeRole->id,
+            'role_id' => $validation['role_id'],
         ]);
 
         return redirect()
