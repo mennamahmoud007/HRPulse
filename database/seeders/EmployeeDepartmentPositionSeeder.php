@@ -74,10 +74,12 @@ class EmployeeDepartmentPositionSeeder extends Seeder
 
             $position = $department->positions->first();
 
-            $employee->update([
-                'department_id' => $department->id,
-                'position_id' => $position->id,
-            ]);
+            if ($position) {
+                $employee->update([
+                    'department_id' => $department->id,
+                    'position_id' => $position->id,
+                ]);
+            } 
         }
     }
 }

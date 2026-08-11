@@ -19,7 +19,8 @@ class DepartmentFactory extends Factory
     {
         return [
              'name' => fake()->unique()->company(),
-        'manager' => fake()->name(),
+            'description' => fake()->sentence(),
+            'manager_id' => null,
         ];
     }
 }

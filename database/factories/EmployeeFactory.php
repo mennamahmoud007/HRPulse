@@ -24,11 +24,11 @@ class EmployeeFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'department_id' => Department::factory(),
-            'position_id' => Position::factory(),
+            'department_id' => null, // Will be assigned in the seeder
+            'position_id' => null, // Will be assigned in the seeder
             'address' => fake()->address(),
             'phone' => fake()->phoneNumber(),
-            'photo' => null,
+            'photo' => 'https://picsum.photos/200/200?random=' . fake()->unique()->numberBetween(1, 1000),
             'hire_date' => fake()->dateTimeBetween('-3 years', 'now'),
             'status' => 'active',
         ];

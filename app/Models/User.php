@@ -42,16 +42,10 @@ class User extends Authenticatable
 {
     return $this->hasMany(Salary::class);
 }
-
-public function department()
+public function employee()
 {
-    return $this->belongsTo(Department::class);
+    return $this->hasOne(Employee::class);
 }
-
-public function position()
-{
-    return $this->belongsTo(Position::class);
- }
  public function managedDepartments()
 {
     return $this->hasMany(Department::class, 'manager_id');
