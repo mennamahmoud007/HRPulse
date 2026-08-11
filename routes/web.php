@@ -5,7 +5,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DepartmentController;
-
+use App\Http\Controllers\PositionController;
+use App\Http\Controllers\SalaryController;
 
 // Authentication
 
@@ -37,15 +38,12 @@ Route::resource('departments', DepartmentController::class);
 
 
 // Positions
-Route::get('/positions', function () {
-    return 'Positions';
-})->name('positions');
+Route::resource('positions', PositionController::class);
 
 
 // Salaries
-Route::get('/salaries', function () {
-    return 'Salaries';
-})->name('salaries');
+Route::get('/salaries', [SalaryController::class, 'index'])
+    ->name('salaries');
 
 
 // Attendance

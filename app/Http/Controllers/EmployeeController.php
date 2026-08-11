@@ -53,4 +53,9 @@ class EmployeeController extends Controller
     {
         return redirect()->route('employees.index')->with('success', 'Employee deleted successfully.');
     }
+
+    public function user()
+{
+    return $this->belongsTo(\App\Models\User::class);
+}
 }

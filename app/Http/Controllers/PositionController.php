@@ -1,0 +1,74 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Position;
+use App\Models\Department;
+use Illuminate\Http\Request;
+
+class PositionController extends Controller
+{
+    // Display all positions
+    public function index()
+    {
+        $positions = Position::with('department')->latest()->paginate(10);
+
+        return view('positions.index', compact('positions'));
+    }
+
+    // Show create form
+    public function create()
+    {
+        $departments = Department::all();
+
+        return view('positions.create', compact('departments'));
+    }
+
+    // Store new position
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'department_id' => 'required|exists:departments,id',
+        ]);
+
+        Position::create($request->only('name', 'department_id'));
+
+        return redirect()
+            ->route('positions.index')
+            ->with('success', 'Position added successfully.');
+    }
+
+    // Show edit form
+    public function edit(Position $position)
+    {
+        $departments = Department::all();
+
+        return view('positions.edit', compact('position', 'departments'));
+    }
+
+    // Update position
+    public function update(Request $request, Position $position)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'department_id' => 'required|exists:departments,id',
+        ]);
+
+        $position->update($request->only('name', 'department_id'));
+
+        return redirect()
+            ->route('positions.index')
+            ->with('success', 'Position updated successfully.');
+    }
+
+    // Delete position
+    public function destroy(Position $position)
+    {
+        $position->delete();
+
+        return redirect()
+            ->route('positions.index')
+            ->with('success', 'Position deleted successfully.');
+    }
+}
