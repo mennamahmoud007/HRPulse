@@ -53,7 +53,9 @@ Route::middleware(['auth', 'role:employee'])->group(function () {
 });
 
 
+
 // HR
+    Route::resource('employees', EmployeeController::class);
 
 Route::middleware(['auth', 'role:hr'])->group(function () {
 
@@ -61,7 +63,7 @@ Route::middleware(['auth', 'role:hr'])->group(function () {
         return 'HR Dashboard';
     })->name('hr.dashboard');
 
-    Route::resource('employees', EmployeeController::class);
+    //Route::resource('employees', EmployeeController::class);
 
     Route::resource('departments', DepartmentController::class);
 

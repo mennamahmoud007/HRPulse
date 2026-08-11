@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Employee;
+use App\Models\Position;
+use App\Models\User;
 
 class Department extends Model
 {
