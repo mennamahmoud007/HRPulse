@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Role;
 
-#[Fillable(['name', 'email', 'password','role_id'])]
+#[Fillable(['name', 'email', 'password', 'role_id'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -31,30 +31,48 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
     protected $fillable = [
-    'name',
-    'email',
-    'password',
-    'phone',    // <-- ضيفي ده
-    'address',  // <-- ضيفي ده
-];
+        'name',
+        'email',
+        'password',
+        'phone',
+        'address',
+        'role_id',
+        'department_id',
+        'position_id',
+        'salary',
+        'status',
+    ];
 
-
-
-    public function role():BelongsTo{
+    public function role(): BelongsTo 
+    {
         return $this->belongsTo(Role::class);
     }
 
-    public function salaries()
+   public function salaries()
 {
-    return $this->hasMany(Salary::class);
+    return $this->hasMany(Salary::class, 'employee_id');
 }
-public function employee()
-{
-    return $this->hasOne(Employee::class);
-}
- public function managedDepartments()
-{
-    return $this->hasMany(Department::class, 'manager_id');
-}
+
+    public function employee()
+    {
+        return $this->hasOne(Employee::class);
+    }
+
+    public function managedDepartments()
+    {
+        return $this->hasMany(Department::class, 'manager_id');
+    }
+
+    // العلاقات الخاصة بالـ HR Dashboard
+    public function department(): BelongsTo
+    {
+        return $this->belongsTo(Department::class, 'department_id');
+    }
+
+    public function position(): BelongsTo
+    {
+        return $this->belongsTo(Position::class, 'position_id');
+    }
 }

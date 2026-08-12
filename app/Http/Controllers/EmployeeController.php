@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
 use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Position;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -23,9 +25,9 @@ class EmployeeController extends Controller
             'salaries',
         ])
         ->when($request->search, function ($query, $search) {
-            $query->whereHas('user', function ($query) use ($search) {
-                $query->where('name', 'like', "%{$search}%")
-                      ->orWhere('email', 'like', "%{$search}%");
+            $query->whereHas('user', function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%");
             });
         })
         ->when($request->department_id, function ($query, $departmentId) {
@@ -68,49 +70,49 @@ class EmployeeController extends Controller
     public function store(StoreEmployeeRequest $request)
     {
         $data = $request->validated();
-        
+
         DB::transaction(function () use ($data, $request) {
-            
-        $employeeRole = \App\Models\Role::where('name', 'employee')->firstOrFail();
-        $user = \App\Models\User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => $data['password'],
-            'role_id' => $employeeRole->id,
-
-        ]);
-
-        $employee = Employee::create([
-            'user_id' => $user->id,
-            'department_id' => $data['department_id'],
-            'position_id' => $data['position_id'],
-            'phone' => $data['phone'] ?? null,
-            'address' => $data['address'] ?? null,
-            'hire_date' => $data['hire_date'] ?? null,
-            'status' => $data['status'],
-        ]);
-
-        if ($request->hasFile('photo')) {
-            $photoPath = $request->file('photo')->store('employees', 'public');
-
-            $employee->update([
-                'photo' => $photoPath,
+            // 1. إنشاء حساب المستخدم بالحقول الخاصة به فقط
+            $user = User::create([
+                'name'     => $data['name'],
+                'email'    => $data['email'],
+                'password' => bcrypt($data['password']),
             ]);
-        }
 
-        $basic = $data['basic'];
-        $bonus = $data['bonus'] ?? 0;
-        $deduction = $data['deduction'] ?? 0;
+            // 2. إنشاء بيانات الموظف
+            $employee = Employee::create([
+                'user_id'       => $user->id,
+                'department_id' => $data['department_id'] ?? null,
+                'position_id'   => $data['position_id'] ?? null,
+                'phone'         => $data['phone'] ?? null,
+                'address'       => $data['address'] ?? null,
+                'hire_date'     => $data['hire_date'] ?? null,
+                'status'        => $data['status'] ?? 'active',
+            ]);
 
-        $employee->salaries()->create([
-            'basic' => $basic,
-            'bonus' => $bonus,
-            'deduction' => $deduction,
-            'net_salary' => $basic + $bonus - $deduction,
-            'from_date' => now()->toDateString(),
-            'to_date' => null,
-        ]);
-    });
+            // 3. رفع الصورة إن وجدت
+            if ($request->hasFile('photo')) {
+                $photoPath = $request->file('photo')->store('employees', 'public');
+                $employee->update(['photo' => $photoPath]);
+            }
+
+            // 4. إضافة الراتب إن وجد
+            if (isset($data['basic'])) {
+                $basic     = $data['basic'];
+                $bonus     = $data['bonus'] ?? 0;
+                $deduction = $data['deduction'] ?? 0;
+
+                $employee->salaries()->create([
+                    'basic'      => $basic,
+                    'bonus'      => $bonus,
+                    'deduction'  => $deduction,
+                    'net_salary' => $basic + $bonus - $deduction,
+                    'from_date'  => now()->toDateString(),
+                    'to_date'    => null,
+                ]);
+            }
+        });
+
         return redirect()->route('employees.index')->with('success', 'Employee created successfully.');
     }
 
@@ -119,14 +121,15 @@ class EmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {
-         $employee->load([
+        $employee->load([
             'user',
             'department',
             'position',
             'salaries',
         ]);
+
         $departments = Department::orderBy('name')->get();
-        $positions = Position::orderBy('name')->get();
+        $positions   = Position::orderBy('name')->get();
 
         return view('employees.edit', compact('employee', 'departments', 'positions'));
     }
@@ -137,52 +140,50 @@ class EmployeeController extends Controller
     public function update(UpdateEmployeeRequest $request, Employee $employee)
     {
         $data = $request->validated();
+
         DB::transaction(function () use ($data, $request, $employee) {
 
             // Update user data
             $employee->user->update([
-                'name' => $data['name'],
+                'name'  => $data['name'],
                 'email' => $data['email'],
             ]);
 
             // Update password only if provided
             if (!empty($data['password'])) {
                 $employee->user->update([
-                   'password' => $data['password'],
+                    'password' => bcrypt($data['password']),
                 ]);
             }
 
             // Update employee data
             $employee->update([
-                'department_id' => $data['department_id'],
-                'position_id' => $data['position_id'],
-                'phone' => $data['phone'] ?? null,
-                'address' => $data['address'] ?? null,
-                'hire_date' => $data['hire_date'] ?? null,
-                'status' => $data['status'],
+                'department_id' => $data['department_id'] ?? null,
+                'position_id'   => $data['position_id'] ?? null,
+                'phone'         => $data['phone'] ?? null,
+                'address'       => $data['address'] ?? null,
+                'hire_date'     => $data['hire_date'] ?? null,
+                'status'        => $data['status'] ?? $employee->status,
             ]);
 
             // Update photo if a new one was uploaded
             if ($request->hasFile('photo')) {
                 $photoPath = $request->file('photo')->store('employees', 'public');
-
-                $employee->update([
-                    'photo' => $photoPath,
-                ]);
+                $employee->update(['photo' => $photoPath]);
             }
 
             // Update current salary
             $salary = $employee->salaries()->latest()->first();
 
-            if ($salary) {
-                $basic = $data['basic'];
-                $bonus = $data['bonus'] ?? 0;
+            if ($salary && isset($data['basic'])) {
+                $basic     = $data['basic'];
+                $bonus     = $data['bonus'] ?? 0;
                 $deduction = $data['deduction'] ?? 0;
 
                 $salary->update([
-                    'basic' => $basic,
-                    'bonus' => $bonus,
-                    'deduction' => $deduction,
+                    'basic'      => $basic,
+                    'bonus'      => $bonus,
+                    'deduction'  => $deduction,
                     'net_salary' => $basic + $bonus - $deduction,
                 ]);
             }
@@ -199,5 +200,4 @@ class EmployeeController extends Controller
         $employee->delete();
         return redirect()->route('employees.index')->with('success', 'Employee deleted successfully.');
     }
-
 }

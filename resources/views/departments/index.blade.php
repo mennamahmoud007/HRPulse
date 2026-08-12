@@ -1,116 +1,161 @@
-<!DOCTYPE html><html>
-<head>
-    <title>Departments</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+@extends('layouts.app')
 
-<!-- Bootstrap Icons -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
+@section('content')
 <style>
-    body {
-        background-color: #0f172a;
-        color: white;
+    .custom-card { 
+        background-color: #1e293b !important; 
+        border: 1px solid #334155 !important; 
+        border-radius: 12px; 
+    }
+    
+    .table-dark-custom { 
+        background-color: #1e293b !important; 
+        color: #f8fafc !important; 
+        margin-bottom: 0; 
+    }
+    
+    .table-dark-custom thead th { 
+        background-color: #1a2333 !important; 
+        color: #64748b !important; 
+        font-size: 0.75rem; 
+        font-weight: 700; 
+        letter-spacing: 0.05em; 
+        border-bottom: 1px solid #334155 !important; 
+        padding: 16px 20px; 
+    }
+    
+    .table-dark-custom tbody tr { 
+        background-color: #1e293b !important; 
+        border-bottom: 1px solid #334155 !important; 
+    }
+    
+    .table-dark-custom tbody tr:hover { 
+        background-color: #26334d !important; 
+    }
+    
+    .table-dark-custom td { 
+        padding: 16px 20px; 
+        vertical-align: middle; 
+        background-color: transparent !important; 
+        color: #e2e8f0 !important; 
     }
 
-    .card {
-        background-color: #1e293b;
-        border: none;
-        border-radius: 15px;
+    .btn-purple { 
+        background: linear-gradient(to right, #7c3aed, #9333ea); 
+        color: white; 
+        border: none; 
+        padding: 10px 20px; 
+        border-radius: 8px; 
+        text-decoration: none; 
+        display: inline-flex; 
+        align-items: center; 
+        gap: 8px; 
+        font-weight: 500; 
+    }
+    
+    .btn-purple:hover { 
+        color: white; 
+        opacity: 0.9; 
     }
 
-    .table {
-    --bs-table-bg: #1e293b;
-    --bs-table-color: white;
-    --bs-table-border-color: #334155;
-}
-
-.table th,
-.table td {
-    color: white;
-}
-
-    .btn-purple {
-        background: linear-gradient(to right, #7c3aed, #9333ea);
-        color: white;
-        border: none;
+    .action-btn { 
+        background: transparent; 
+        border: none; 
+        padding: 6px 10px; 
+        border-radius: 6px; 
+        text-decoration: none; 
+        display: inline-block; 
+        cursor: pointer;
     }
-
-    .btn-purple:hover {
-        opacity: 0.9;
+    
+    .action-btn:hover { 
+        background-color: #334155; 
+    }
+    
+    .manager-badge {
+        background-color: rgba(99, 102, 241, 0.15);
+        color: #818cf8;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+    
+    .no-manager-badge {
+        background-color: rgba(100, 116, 139, 0.2);
+        color: #94a3b8;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 0.85rem;
     }
 </style>
 
-</head><body class="p-5"><div class="container"><div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Departments</h2>
+<div class="container-fluid py-2">
+    {{-- رسالة النجاح --}}
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show bg-success text-white border-0 mb-3" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
 
-    <a href="{{ route('departments.create') }}" class="btn btn-purple">
-        + Add Department
-    </a>
+    {{-- الهيدر الرئيسي --}}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="text-white fw-bold mb-1" style="font-size: 1.75rem;">Departments</h2>
+            <span style="color: #64748b; font-size: 0.9rem;">Manage company departments and managers</span>
+        </div>
+        <a href="{{ route('departments.create') }}" class="btn btn-purple">
+            + Add Department
+        </a>
+    </div>
+
+    {{-- جدول الأقسام --}}
+    <div class="card custom-card overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-dark-custom align-middle">
+                <thead>
+                    <tr>
+                        <th>DEPARTMENT NAME</th>
+                        <th>MANAGER</th>
+                        <th class="text-end">ACTIONS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($departments as $department)
+                        <tr>
+                            <td class="fw-semibold text-white fs-6">{{ $department->name }}</td>
+                            <td>
+                                <span class="{{ $department->manager?->user?->name ? 'manager-badge' : 'no-manager-badge' }}">
+                                    {{ $department->manager?->user?->name ?? 'No Manager' }}
+                                </span>
+                            </td>
+                            <td class="text-end">
+                                {{-- زر التعديل --}}
+                                <a href="{{ route('departments.edit', $department->id) }}" class="action-btn" title="Edit">
+                                    ✏️
+                                </a>
+
+                                {{-- زر الحذف --}}
+                                <form action="{{ route('departments.destroy', $department->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this department?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="action-btn text-danger" title="Delete">
+                                        🗑️
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="3" class="text-center py-4" style="color: #64748b;">
+                                No departments found.
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-
-<div class="card p-4">
-    <table class="table text-white">
-
-        <thead>
-            <tr>
-                
-                <th>Department Name</th>
-                <th>Manager</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-
-        <tbody>
-
-            @foreach($departments as $department)
-
-            <tr>
-
-
-                <td>{{ $department->name }}</td>
-
-                <td>
-                    {{ $department->manager?->user?->name ?? 'No Manager' }}
-                </td>
-
-                <td>
-
-                    <!-- Edit -->
-                    <a href="{{ route('departments.edit', $department->id) }}"
-                       class="btn btn-sm btn-warning"
-                       title="Edit">
-
-                        <i class="bi bi-pencil"></i>
-
-                    </a>
-
-                    <!-- Delete -->
-                    <form action="{{ route('departments.destroy', $department->id) }}"
-                          method="POST"
-                          style="display:inline;">
-
-                        @csrf
-                        @method('DELETE')
-
-                        <button type="submit"
-                                class="btn btn-sm btn-danger"
-                                title="Delete">
-
-                            <i class="bi bi-trash"></i>
-
-                        </button>
-
-                    </form>
-
-                </td>
-
-            </tr>
-
-            @endforeach
-
-        </tbody>
-
-    </table>
-</div>
-
-</div></body>
-</html>
+@endsection

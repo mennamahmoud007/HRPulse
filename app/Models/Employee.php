@@ -29,10 +29,10 @@ class Employee extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function salaries()
-    {
-        return $this->hasMany(Salary::class, 'employee_id', 'user_id');
-    }
+   public function salaries()
+{
+    return $this->hasMany(Salary::class, 'employee_id');
+}
     public function department()
     {
         return $this->belongsTo(Department::class);

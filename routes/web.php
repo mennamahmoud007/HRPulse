@@ -19,14 +19,18 @@ use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\HREmployeeController;
 
+// ربط رابط employees بالـ Controller الجديد
 Route::get('/employees', [HREmployeeController::class, 'index'])->name('employees.index');
+
 Route::middleware(['auth', 'role:employee'])->group(function () {
     Route::get('/employee/salary', [SalaryController::class, 'index'])->name('employee.salary');
     Route::get('/employee/attendance', [AttendanceController::class, 'index'])->name('employee.attendance');
     Route::get('/employee/leave-requests', [LeaveRequestController::class, 'index'])->name('employee.leaves');
     Route::post('/employee/leave-requests', [LeaveRequestController::class, 'store'])->name('employee.leaves.store');
 });
-
+Route::post('/employees/store', [HREmployeeController::class, 'store'])->name('employees.store');
+Route::put('/employees/{id}/update', [HREmployeeController::class, 'update'])->name('employees.update');
+Route::delete('/employees/{id}/delete', [HREmployeeController::class, 'destroy'])->name('employees.destroy');
 // Dashboard
 Route::get('/hr/dashboard', [HrDashboardController::class, 'index'])->middleware('auth')->name('hr.dashboard');
 
@@ -64,8 +68,7 @@ Route::middleware(['auth', 'role:employee'])->group(function () {
     })->name('leave-requests');
 });
 
-// HR Resources
-Route::resource('employees', EmployeeController::class);
+// HR Resources (تم حذف السطر القديم المسبب للتعارض من هنا)
 
 Route::middleware(['auth', 'role:hr'])->group(function () {
     Route::resource('departments', DepartmentController::class);
@@ -118,5 +121,3 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 Route::get('/reports', function () {
     return 'Reports';
 })->name('reports');
-
-Route::put('/password', [ProfileController::class, 'updatePassword'])->name('password.update');
