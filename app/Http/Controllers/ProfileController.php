@@ -1,55 +1,56 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Http\Requests\UpdateProfileRequest;
-use Illuminate\Support\Facades\DB;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 
 class ProfileController extends Controller
 {
-   
-    /**
-     * Display the specified resource.
-     */
     public function show()
     {
         $user = auth()->user();
-
-        $user->load([
-            'employee.department',
-            'employee.position',
-        ]);
-
-        return view('profile.index', compact('user'));
+        return view('profile.show', compact('user'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateProfileRequest $request)
+    public function update(Request $request)
     {
-         $data = $request->validated();
-
         $user = auth()->user();
 
-        DB::transaction(function () use ($user, $data, $request) {
+        $validated = $request->validate([
+            'name'    => ['required', 'string', 'max:255'],
+            'email'   => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+            'phone'   => ['nullable', 'string', 'max:20'],
+            'address' => ['nullable', 'string', 'max:255'],
+        ]);
 
-            // Update employee information
-            $user->employee->update([
-                'phone' => $data['phone'] ?? null,
-                'address' => $data['address'] ?? null,
-            ]);
+        // تحديث البيانات الحالية في الداتا بيز
+        $user->update([
+            'name'    => $validated['name'],
+            'email'   => $validated['email'],
+            'phone'   => $validated['phone'],
+            'address' => $validated['address'],
+        ]);
 
-            // Update photo if a new one was uploaded
-            if ($request->hasFile('photo')) {
-                $photoPath = $request->file('photo')
-                    ->store('employees', 'public');
+        // تجديد توثيق الجلسة لمنع التحويل لصفحة التسجيل
+        auth()->login($user);
 
-                $user->employee->update([
-                    'photo' => $photoPath,
-                ]);
-            }
-        });
-        return redirect()->route('profile')->with('success', 'Profile updated successfully.');
+        return redirect()->back()->with('success', 'Profile updated successfully!');
     }
 
+    public function updatePassword(Request $request)
+    {
+        $validated = $request->validate([
+            'current_password' => ['required', 'current_password'],
+            'password'         => ['required', Password::defaults(), 'confirmed'],
+        ]);
+
+        $request->user()->update([
+            'password' => Hash::make($validated['password']),
+        ]);
+
+        return redirect()->back()->with('success', 'Password changed successfully!');
+    }
 }

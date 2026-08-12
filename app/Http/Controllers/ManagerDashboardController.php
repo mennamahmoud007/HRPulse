@@ -3,46 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\LeaveRequest; // هذا السطر لحل مشكلة السطر 18
+use App\Models\Attendance;   // هذا السطر لتجنب خطأ مشابه في السطر 19
 
 class ManagerDashboardController extends Controller
 {
     public function index()
     {
-        // 1. بيانات الكروت العلويّة
-        $teamMembersCount = 3;
-        $pendingLeaves = 1;
-        $presentToday = 1;
+        // الكروت العلوية من الداتابيز
+        $teamMembersCount = User::count();
+        $pendingLeaves = LeaveRequest::where('status', 'pending')->count();
+        $presentToday = Attendance::whereDate('created_at', today())->count();
 
-        // 2. بيانات جدول الحضور
-        $teamAttendance = collect([
-            (object)[
-                'name' => 'Sarah Mitchell',
-                'position_name' => 'Senior Developer',
-                'check_in' => '08:52',
-                'check_out' => '17:30',
-                'status' => 'Present'
-            ],
-            (object)[
-                'name' => 'Lucas Weber',
-                'position_name' => 'Frontend Developer',
-                'check_in' => '09:00',
-                'check_out' => '13:30',
-                'status' => 'Half Day'
-            ],
-            (object)[
-                'name' => 'Ryan Nakamura',
-                'position_name' => 'Backend Developer',
-                'check_in' => null,
-                'check_out' => null,
-                'status' => 'Absent'
-            ]
-        ]);
-
-        return view('dashboard.dashboard', compact(
-            'teamMembersCount',
-            'pendingLeaves',
-            'presentToday',
-            'teamAttendance'
-        ));
+        return view('dashboard.manager', compact('teamMembersCount', 'pendingLeaves', 'presentToday'));
     }
 }
