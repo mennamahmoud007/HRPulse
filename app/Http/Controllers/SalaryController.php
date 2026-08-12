@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Salary;
 
 class SalaryController extends Controller
 {
     public function index()
-{
-    $user = auth()->user();
-    return view('employees.salary', compact('user'));
-}
+    {
+        $salaries = Salary::with([
+            'employee.user',
+            'employee.department',
+            'employee.position',
+        ])->get();
+
+        return view('salaries.index', compact('salaries'));
+    }
 }

@@ -50,9 +50,9 @@
     </style>
 </head>
 
-<body class="p-5">
+<body >
     
-    <div class="container">
+    <div class="positions-container">
 
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2>Positions</h2>
@@ -62,7 +62,7 @@
             </a>
         </div>
         
-    <div class="card p-4">
+    <div class="card p-4 positions-card">
         
         <table class="table">
             
