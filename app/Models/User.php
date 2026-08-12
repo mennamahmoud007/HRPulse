@@ -35,8 +35,8 @@ class User extends Authenticatable
     'name',
     'email',
     'password',
-    'phone',    // <-- ضيفي ده
-    'address',  // <-- ضيفي ده
+    'phone',    
+    'address',  
 ];
 
 

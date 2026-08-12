@@ -8,12 +8,12 @@ class ManagerDashboardController extends Controller
 {
     public function index()
     {
-        // 1. بيانات الكروت العلويّة
+        
         $teamMembersCount = 3;
         $pendingLeaves = 1;
         $presentToday = 1;
 
-        // 2. بيانات جدول الحضور
+
         $teamAttendance = collect([
             (object)[
                 'name' => 'Sarah Mitchell',

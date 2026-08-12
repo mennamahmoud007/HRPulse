@@ -7,6 +7,12 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HRDashboardController;
+use App\Http\Controllers\ManagerDashboardController;
+use App\Http\Controllers\EmployeeDashboardController;
+use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\LeaveRequestController;
 
 // Authentication
 
@@ -40,22 +46,18 @@ Route::middleware('auth')->group(function () {
 
 // Employee Dashboard
 
-Route::get('/dashboard', function () {
-    return view('dashboard.employee');
-})->middleware(['auth', 'role:employee'])->name('employee.dashboard');
 
 
 // Employee
 
 Route::middleware(['auth', 'role:employee'])->group(function () {
+    
+    Route::get('/dashboard', function () {
+        return view('dashboard.employee');
+    })->name('employee.dashboard');
+    Route::get('/salaries', [SalaryController::class, 'index'])->name('salary.employee');
 
-    Route::get('/salaries', function () {
-        return 'Salaries';
-    })->name('salaries');
-
-    Route::get('/attendance', function () {
-        return 'Attendance';
-    })->name('attendance');
+    Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance');
 
     Route::get('/leave-requests', function () {
         return 'Leave Requests';
@@ -67,9 +69,8 @@ Route::middleware(['auth', 'role:employee'])->group(function () {
 
 Route::middleware(['auth', 'role:hr'])->group(function () {
 
-    Route::get('/hr/dashboard', function () {
-        return 'HR Dashboard';
-    })->name('hr.dashboard');
+    Route::get('/hr/dashboard', [HRDashboardController::class, 'index'])
+        ->name('hr.dashboard');
 
     Route::resource('employees', EmployeeController::class);
 
@@ -94,19 +95,12 @@ Route::middleware(['auth', 'role:hr'])->group(function () {
     Route::get('/reports', function () {
         return 'Reports';
     })->name('reports');
+    Route::get('/salaries',function(){
+        return view('salaries.index');
+    })->name('salaries');
 
+    Route::resource('positions', PositionController::class);
 });
-
-
-// Positions
-
-Route::resource('positions', PositionController::class);
-
-
-// Salaries
-
-Route::get('/salaries', [SalaryController::class, 'index'])
-    ->name('salaries');
 
 
 // Manager

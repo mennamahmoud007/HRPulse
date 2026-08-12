@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manager Dashboard - HRPulse</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Manager Dashboard - HRPulse</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body { 
@@ -94,7 +94,7 @@
         .stat-label { color: #64748b; font-size: 0.85rem; font-weight: 500; }
         .stat-value { color: #ffffff; font-size: 2rem; font-weight: 700; line-height: 1.1; margin-top: 4px; }
         .stat-sub { font-size: 0.78rem; font-weight: 600; margin-top: 6px; }
-
+        
         /* Table Box */
         .card-box { 
             background-color: #151a2e; 
@@ -155,13 +155,13 @@
     $userName = $currentUser->name ?? 'User';
     $userEmail = $currentUser->email ?? 'user@corp.io';
     $userInitials = strtoupper(substr($userName, 0, 2));
-
+    
     // المتغيرات القادمة من الكنترولر (ديناميك)
     $teamMembersCount = $teamMembersCount ?? 0;
     $pendingLeaves = $pendingLeaves ?? 0;
     $presentToday = $presentToday ?? 0;
     $teamAttendance = $teamAttendance ?? collect();
-@endphp
+    @endphp
 
 <div class="container-fluid p-0">
     <div class="row g-0">
@@ -203,18 +203,6 @@
 
         <!-- Main Content -->
         <div class="col-md-10 p-4 px-5">
-            <!-- Header Bar -->
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <div class="d-flex align-items-center gap-3">
-                    <button class="btn btn-outline-secondary btn-sm border-0"><i class="fa-solid fa-bars text-white fs-5"></i></button>
-                    <h4 class="text-white mb-0 fw-bold">Dashboard</h4>
-                </div>
-                <div class="d-flex align-items-center gap-3">
-                    <i class="fa-regular fa-bell text-secondary fs-5" style="cursor: pointer;"></i>
-                    <div class="avatar-circle" style="width: 36px; height: 36px;">{{ $userInitials }}</div>
-                    <span class="text-white fw-medium" style="font-size: 0.9rem;">{{ $userName }} <i class="fa-solid fa-chevron-down ms-1 text-secondary" style="font-size: 0.75rem;"></i></span>
-                </div>
-            </div>
 
             <!-- Page Title -->
             <div class="mb-4">
@@ -223,7 +211,7 @@
                     {{ \Carbon\Carbon::now()->format('l, F j, Y') }} • Engineering Team
                 </p>
             </div>
-
+            
             <!-- 3 Stat Cards (Dynamic) -->
             <div class="row g-4 mb-4">
                 <div class="col-md-4">
@@ -255,7 +243,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <!-- Team Attendance Table Section (Dynamic) -->
             <div class="card-box">
                 <h5 class="text-white fw-bold mb-4" style="font-size: 1.05rem;">Team Attendance — Today</h5>
@@ -274,7 +262,7 @@
                         <tbody>
                             @forelse($teamAttendance as $emp)
                             @php
-                                $checkIn = isset($emp->check_in) && $emp->check_in ? date('H:i', strtotime($emp->check_in)) : '--';
+                            $checkIn = isset($emp->check_in) && $emp->check_in ? date('H:i', strtotime($emp->check_in)) : '--';
                                 $checkOut = isset($emp->check_out) && $emp->check_out ? date('H:i', strtotime($emp->check_out)) : '--';
                                 
                                 $hours = '--';

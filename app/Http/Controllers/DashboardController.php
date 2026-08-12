@@ -13,7 +13,7 @@ class DashboardController extends Controller
     {
         $today = Carbon::today()->toDateString();
 
-        // 1. أرقام الكروت الحقيقية
+    
         $teamMembersCount = Schema::hasTable('users') ? DB::table('users')->count() : 0;
         
         $pendingLeaves = 0;
@@ -23,7 +23,7 @@ class DashboardController extends Controller
             $pendingLeaves = DB::table('leaves')->where('status', 'pending')->count();
         }
 
-        // 2. تحديد اسم المفتاح الأجنبي الصحيح لجدول الحضور
+        
         $attendanceFk = 'employee_id';
         if (Schema::hasTable('attendances')) {
             if (Schema::hasColumn('attendances', 'user_id')) {
@@ -33,14 +33,13 @@ class DashboardController extends Controller
             }
         }
 
-        // 3. حساب الحاضرين اليوم
         $presentToday = 0;
         if (Schema::hasTable('attendances')) {
             $dateColumn = Schema::hasColumn('attendances', 'date') ? 'date' : 'created_at';
             $presentToday = DB::table('attendances')->whereDate($dateColumn, $today)->count();
         }
 
-        // 4. جلب قائمة الموظفين والحضور الحقيقية
+        
         $teamAttendance = collect();
         if (Schema::hasTable('users')) {
             $query = DB::table('users');

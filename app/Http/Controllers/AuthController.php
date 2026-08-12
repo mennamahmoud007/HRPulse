@@ -11,14 +11,14 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    // عرض صفحة إنشاء حساب
+
     public function showRegister()
     {
         $roles = Role::all();
         return view('auth.register', compact('roles'));
     }
 
-    // تنفيذ إنشاء الحساب
+
     public function register(Request $request)
     {
         $validation = $request->validate([
@@ -29,7 +29,7 @@ class AuthController extends Controller
             'role_id'          => 'required|exists:roles,id',
         ]);
 
-        User::create([
+        $user = User::create([
             'name'     => $validation['name'],
             'email'    => $validation['email'],
             'password' => Hash::make($validation['password']),
@@ -49,13 +49,13 @@ class AuthController extends Controller
             ->with('success', 'Registration successful. Please login.');
     }
 
-    // عرض صفحة تسجيل الدخول
+    
     public function showLogin()
     {
         return view('auth.login');
     }
 
-    // تنفيذ عملية تسجيل الدخول
+    
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -84,7 +84,7 @@ class AuthController extends Controller
             ->onlyInput('email');
     }
 
-    // تسجيل الخروج
+
     public function logout(Request $request)
     {
         Auth::logout();
@@ -93,5 +93,6 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/login');
+        //  return redirect()->route('login');
     }
 }

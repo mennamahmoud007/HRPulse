@@ -8,13 +8,12 @@ use Illuminate\Support\Facades\Schema;
 
 class LeaveRequestController extends Controller
 {
-    // عرض شاشة طلبات الإجازة
+
     public function index()
     {
         $user = auth()->user();
         $userId = auth()->id();
 
-        // تحديد اسم جدول الإجازات
         $leaveTable = Schema::hasTable('leave_requests') ? 'leave_requests' : (Schema::hasTable('leaves') ? 'leaves' : null);
 
         $pending = 0;
@@ -35,11 +34,11 @@ class LeaveRequestController extends Controller
                 ->get();
         }
 
-       // غيري المفرد بالجمع:
+       
 return view('employees.leaves', compact('user', 'pending', 'approved', 'rejected', 'requests'));
     }
 
-    // حفظ طلب الإجازة الجديد
+
     public function store(Request $request)
     {
         $request->validate([

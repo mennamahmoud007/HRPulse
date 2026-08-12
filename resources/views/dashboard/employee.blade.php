@@ -6,7 +6,7 @@
     <head>
         <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HR Dashboard - HRPulse</title>
+    <title>Employee Dashboard - HRPulse</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
@@ -24,7 +24,7 @@
     <div class="container-fluid">
         <!-- Header -->
         <div class="mb-4">
-            <h2 class="fw-bold">HR Dashboard</h2>
+            <h2 class="fw-bold">Employee Dashboard</h2>
             <p class="text-secondary">Wednesday, August 6, 2026</p>
         </div>
         

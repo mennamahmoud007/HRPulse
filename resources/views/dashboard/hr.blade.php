@@ -26,7 +26,7 @@
         
         /* Table Figma Exact Match */
         .custom-table { width: 100%; margin-bottom: 0; border-collapse: separate; border-spacing: 0; }
-        .custom-table th { color: #475569; border-bottom: 1px solid #1e233d; font-size: 0.72rem; text-transform: uppercase; font-weight: 700; padding: 12px 10px; background: transparent !important; }
+        .custom-table th { color: #d5e2f5; border-bottom: 1px solid #1e233d; font-size: 0.72rem; text-transform: uppercase; font-weight: 700; padding: 12px 10px; background: transparent !important; }
         .custom-table td { border-bottom: 1px solid #1a1e36; padding: 16px 10px; vertical-align: middle; font-size: 0.88rem; background: transparent !important; color: #cbd5e1 !important; }
         .custom-table tr:last-child td { border-bottom: none; }
         
@@ -60,7 +60,7 @@
                 <div class="brand-icon"><i class="fa-solid fa-layer-group"></i></div>
                 <div>
                     <div class="text-white fw-bold" style="font-size: 1.1rem;">HRPulse</div>
-                    <span class="brand-badge">HR ADMINISTRATOR</span>
+                    <span class="brand-badge">HR</span>
                 </div>
             </div>
 
@@ -93,18 +93,6 @@
 
         <!-- Main Content -->
         <div class="col-md-10 p-4">
-            <!-- Header Bar -->
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <div class="d-flex align-items-center gap-3">
-                    <button class="btn btn-outline-secondary btn-sm border-0"><i class="fa-solid fa-bars text-white"></i></button>
-                    <h4 class="text-white mb-0 fw-bold">Dashboard</h4>
-                </div>
-                <div class="d-flex align-items-center gap-3">
-                    <i class="fa-regular fa-bell text-secondary fs-5"></i>
-                    <div class="avatar-circle" style="width: 34px; height: 34px;">{{ $userInitials }}</div>
-                    <span class="text-white" style="font-size: 0.9rem;">{{ $userName }}</span>
-                </div>
-            </div>
 
             <h3 class="text-white fw-bold mb-1">HR Dashboard</h3>
             <p style="font-size: 0.85rem; color: #64748b;" class="mb-4">{{ \Carbon\Carbon::now()->format('l, F j, Y') }}</p>
@@ -214,7 +202,7 @@
                                 <tbody>
                                     @forelse($recentLeaves as $leave)
                                     @php
-                                        // حساب الفارق الزمني (Duration)
+                                        //  (Duration)
                                         $start = \Carbon\Carbon::parse($leave->start_date);
                                         $end = \Carbon\Carbon::parse($leave->end_date);
                                         $days = $start->diffInDays($end) + 1;

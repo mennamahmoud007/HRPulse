@@ -75,18 +75,6 @@
 
         <!-- Main Content -->
         <div class="col-md-10 p-4 px-5">
-            <!-- Header -->
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <div class="d-flex align-items-center gap-3">
-                    <button class="btn btn-outline-secondary btn-sm border-0"><i class="fa-solid fa-bars text-white fs-5"></i></button>
-                    <h4 class="text-white mb-0 fw-bold">Attendance</h4>
-                </div>
-                <div class="d-flex align-items-center gap-3">
-                    <i class="fa-regular fa-bell text-secondary fs-5"></i>
-                    <div class="avatar-circle">{{ $userInitials }}</div>
-                    <span class="text-white fw-medium" style="font-size: 0.9rem;">{{ $userName }} <i class="fa-solid fa-chevron-down ms-1 text-secondary" style="font-size: 0.75rem;"></i></span>
-                </div>
-            </div>
 
             <!-- 4 Stat Cards -->
             <div class="row g-4 mb-4">
