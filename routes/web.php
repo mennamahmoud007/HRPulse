@@ -14,6 +14,11 @@ use App\Http\Controllers\EmployeeDashboardController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\LeaveRequestController;
 
+//Home
+Route::get('/', function () {
+    return view('home');
+})->name('home');
+
 // Authentication
 
 Route::get('/login', [AuthController::class, 'showLogin'])
