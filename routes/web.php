@@ -7,6 +7,11 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\SalaryController;
 
+//Home
+Route::get('/', function () {
+    return view('home');
+})->name('home');
+
 // Authentication
 
 Route::get('/login', [AuthController::class, 'showLogin'])
