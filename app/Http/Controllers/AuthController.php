@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -34,6 +35,14 @@ class AuthController extends Controller
             'password' => Hash::make($validation['password']),
             'role_id' => $validation['role_id'],
         ]);
+         $role = Role::find($validation['role_id']);
+
+            if ($role->name === 'employee') {
+                Employee::create([
+                    'user_id' => $user->id,
+                    'status' => 'active',
+                ]);
+            }
 
         return redirect()
             ->route('login')
