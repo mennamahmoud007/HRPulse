@@ -17,7 +17,9 @@ use App\Http\Controllers\EmployeeDashboardController;
 use App\Http\Controllers\PerformanceController;
 use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\HREmployeeController;
 
+Route::get('/employees', [HREmployeeController::class, 'index'])->name('employees.index');
 Route::middleware(['auth', 'role:employee'])->group(function () {
     Route::get('/employee/salary', [SalaryController::class, 'index'])->name('employee.salary');
     Route::get('/employee/attendance', [AttendanceController::class, 'index'])->name('employee.attendance');

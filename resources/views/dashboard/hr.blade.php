@@ -55,41 +55,7 @@
 <div class="container-fluid p-0">
     <div class="row g-0">
         <!-- Sidebar -->
-        <div class="col-md-2 sidebar d-flex flex-column">
-            <div class="brand mb-4 px-2 d-flex align-items-center gap-2">
-                <div class="brand-icon"><i class="fa-solid fa-layer-group"></i></div>
-                <div>
-                    <div class="text-white fw-bold" style="font-size: 1.1rem;">HRPulse</div>
-                    <span class="brand-badge">HR ADMINISTRATOR</span>
-                </div>
-            </div>
-
-            <div class="nav flex-column gap-1">
-                <a href="{{ route('hr.dashboard') }}" class="nav-link active"><i class="fa-solid fa-border-all"></i> Dashboard</a>
-                <a href="{{ route('employees.index') }}" class="nav-link"><i class="fa-regular fa-user"></i> Employees</a>
-                <a href="{{ route('departments.index') }}" class="nav-link"><i class="fa-regular fa-building"></i> Departments</a>
-                <a href="{{ route('positions.index') }}" class="nav-link"><i class="fa-solid fa-briefcase"></i> Positions</a>
-                <a href="{{ route('hr.salaries') }}" class="nav-link"><i class="fa-solid fa-dollar-sign"></i> Salaries</a>
-                <a href="{{ route('hr.attendance') }}" class="nav-link"><i class="fa-regular fa-clock"></i> Attendance</a>
-                <a href="{{ route('hr.leave-requests') }}" class="nav-link"><i class="fa-regular fa-envelope"></i> Leave Requests</a>
-                <a href="#" class="nav-link"><i class="fa-solid fa-chart-simple"></i> Reports</a>
-                <a href="{{ route('profile') }}" class="nav-link"><i class="fa-regular fa-circle-user"></i> Profile</a>
-            </div>
-
-            <div class="mt-auto pt-3 border-top border-secondary-subtle">
-                <div class="d-flex align-items-center gap-2 mb-3 px-1">
-                    <div class="avatar-circle">{{ $userInitials }}</div>
-                    <div class="overflow-hidden">
-                        <div class="text-white fw-medium text-truncate" style="font-size: 0.85rem;">{{ $userName }}</div>
-                        <div class="text-muted text-truncate" style="font-size: 0.75rem;">{{ $userEmail }}</div>
-                    </div>
-                </div>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="btn btn-link text-danger text-decoration-none nav-link w-100 p-0 border-0"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
-                </form>
-            </div>
-        </div>
+        @include('layouts.hr-sidebar')
 
         <!-- Main Content -->
         <div class="col-md-10 p-4">
