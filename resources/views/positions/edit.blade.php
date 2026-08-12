@@ -2,123 +2,124 @@
 
 @section('content')
 
+<style>
+    .create-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(100vh - 40px);
+        padding: 30px;
+    }
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Edit Position</title>
-        
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-        
-        <style>
-            body {
-            background-color: #0f172a;
-            color: white;
-        }
-        
-        .card {
-            background-color: #1e293b;
-            border-radius: 15px;
-            padding: 30px;
-        }
+    .create-card {
+        background-color: #1e293b;
+        border-radius: 15px;
+        padding: 30px;
+        width: 100%;
+        max-width: 650px;
+    }
 
-        .form-label {
-            color: white;
-        }
+    .create-card label {
+        color: white;
+        margin-bottom: 8px;
+    }
 
-        .btn-purple {
-            background: linear-gradient(to right, #7c3aed, #9333ea);
-            color: white;
-            border: none;
-        }
+    .create-card .form-control,
+    .create-card .form-select {
+        background-color: #334155;
+        color: white;
+        border: 1px solid #475569;
+    }
 
-        .btn-purple:hover {
-            opacity: 0.9;
-            color: white;
-        }
-        
-        .form-control,
-        .form-select {
-            background-color: #334155;
-            color: white;
-            border: 1px solid #475569;
-        }
-        
-        .form-select option {
-            background-color: #334155;
-            color: white;
-        }
-        </style>
-</head>
+    .create-card .form-select option {
+        background-color: #334155;
+        color: white;
+    }
 
-<body class="d-flex justify-content-center align-items-center vh-100">
+    .btn-purple {
+        background: linear-gradient(to right, #7c3aed, #9333ea);
+        color: white;
+        border: none;
+    }
 
-    <div class="card col-md-6">
-        
-        <h3 class="mb-4">Edit Position</h3>
+    .btn-purple:hover {
+        opacity: 0.9;
+        color: white;
+    }
+</style>
+
+<div class="create-container">
+
+    <div class="create-card">
+
+        <h3 class="mb-4 text-white">Edit Position</h3>
 
         <form action="{{ route('positions.update', $position->id) }}" method="POST">
             @csrf
             @method('PUT')
-            
+
             <!-- Position Title -->
             <div class="mb-3">
-                <label class="form-label">Position Title</label>
-                
+                <label>Position Title</label>
+
                 <input
-                type="text"
-                name="name"
-                class="form-control"
-                value="{{ old('name', $position->name) }}"
+                    type="text"
+                    name="name"
+                    class="form-control"
+                    value="{{ old('name', $position->name) }}"
                 >
-                
+
                 @error('name')
-                <div class="text-danger mt-1">{{ $message }}</div>
+                    <div class="text-danger mt-1">
+                        {{ $message }}
+                    </div>
                 @enderror
             </div>
-            
-        <!-- Department -->
-        <div class="mb-3">
-            <label class="form-label">Department</label>
-            
-            <select name="department_id" class="form-select">
-                
-                @foreach($departments as $department)
-                
-                <option
-                        value="{{ $department->id }}"
-                        {{ old('department_id', $position->department_id) == $department->id ? 'selected' : '' }}
+
+            <!-- Department -->
+            <div class="mb-3">
+                <label>Department</label>
+
+                <select name="department_id" class="form-select">
+
+                    <option value="">Select Department</option>
+
+                    @foreach($departments as $department)
+                        <option
+                            value="{{ $department->id }}"
+                            {{ old('department_id', $position->department_id) == $department->id ? 'selected' : '' }}
                         >
-                        {{ $department->name }}
-                    </option>
-                    
+                            {{ $department->name }}
+                        </option>
                     @endforeach
-                    
+
                 </select>
-                
+
                 @error('department_id')
-                <div class="text-danger mt-1">{{ $message }}</div>
+                    <div class="text-danger mt-1">
+                        {{ $message }}
+                    </div>
                 @enderror
             </div>
-            
+
             <!-- Buttons -->
             <div class="d-flex justify-content-end">
-                
+
                 <a href="{{ route('positions.index') }}"
-                class="btn btn-secondary me-2">
-                Cancel
-            </a>
-            
-            <button type="submit" class="btn btn-purple">
-                Update Position
-            </button>
-            
-        </div>
-        
-    </form>
-    
+                   class="btn btn-secondary me-2">
+                    Cancel
+                </a>
+
+                <button type="submit" class="btn btn-purple">
+                    Update Position
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
 </div>
 
-</body>
-</html>
 @endsection

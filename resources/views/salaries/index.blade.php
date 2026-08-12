@@ -79,9 +79,9 @@
         </style>
 </head>
 
-<body class="p-5">
+<body>
 
-    <div class="container">
+    <div class="positions-container">
         
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-2">

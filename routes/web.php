@@ -100,9 +100,8 @@ Route::middleware(['auth', 'role:hr'])->group(function () {
     Route::get('/reports', function () {
         return 'Reports';
     })->name('reports');
-    Route::get('/salaries',function(){
-        return view('salaries.index');
-    })->name('salaries');
+    Route::get('/hr/salaries', [SalaryController::class, 'index'])
+    ->name('hr.salaries');
 
     Route::resource('positions', PositionController::class);
 });
