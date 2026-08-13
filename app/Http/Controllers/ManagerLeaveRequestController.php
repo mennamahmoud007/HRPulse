@@ -9,8 +9,10 @@ class ManagerLeaveRequestController extends Controller
 {
     public function index()
     {
-        // جلب جميع الطلبات مع بيانات المستخدم مرتبة من الأحدث للأقدم
-        $leaveRequests = LeaveRequest::with('user')->latest()->get();
+    
+        $leaveRequests = LeaveRequest::with('employee.user')
+    ->latest()
+    ->get();
         $pendingCount = LeaveRequest::where('status', 'pending')->count();
 
         return view('manager.leave-requests', compact('leaveRequests', 'pendingCount'));
@@ -18,7 +20,7 @@ class ManagerLeaveRequestController extends Controller
 
     public function updateStatus(Request $request, $id)
     {
-        // التحقق من أن حالة الطلب إما مقبولة أو مرفوضة فقط
+        
         $request->validate([
             'status' => 'required|in:approved,rejected',
         ]);

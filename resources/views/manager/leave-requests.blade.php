@@ -67,12 +67,12 @@
                                     <td>
                                         <div class="d-flex align-items-center gap-2">
                                             <div class="avatar-circle" style="background: #818cf8;">
-                                                {{ strtoupper(substr($request->user->name ?? 'U', 0, 2)) }}
+                                                 {{ strtoupper(substr($request->employee->user->name ?? 'U', 0, 2)) }}
                                             </div>
                                             <div>
                                                 <div class="text-white fw-semibold">{{ $request->employee->user->name ?? 'N/A' }}</div>
                                                 <div style="font-size: 0.75rem; color: #475569;">
-                                                    {{ $request->start_date }} → {{ $request->end_date }}
+                                                    {{ $request->employee->user->name ?? 'N/A' }}
                                                 </div>
                                             </div>
                                         </div>
