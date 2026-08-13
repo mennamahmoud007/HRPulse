@@ -178,12 +178,10 @@
             <div class="menu-title">MENU</div>
 
             <div class="nav flex-column">
-                <a href="/manager/dashboard" class="nav-link active"><i class="fa-solid fa-border-all"></i> Dashboard</a>
-                <a href="#" class="nav-link"><i class="fa-regular fa-user"></i> Team Employees</a>
-                <a href="#" class="nav-link"><i class="fa-regular fa-clock"></i> Attendance</a>
-                <a href="#" class="nav-link"><i class="fa-regular fa-envelope"></i> Leave Requests</a>
-                <a href="#" class="nav-link"><i class="fa-regular fa-star"></i> Performance</a>
-                <a href="#" class="nav-link"><i class="fa-regular fa-circle-user"></i> Profile</a>
+                <a href="{{ route('manager.dashboard') }}" class="nav-link active"><i class="fa-solid fa-border-all"></i> Dashboard</a>
+                <a href="{{ route('manager.team-employees') }}" class="nav-link"><i class="fa-regular fa-user"></i> Team Employees</a>
+                <a href="{{ route('manager.attendance') }}" class="nav-link"><i class="fa-regular fa-clock"></i> Attendance</a>
+                <a href="{{ route('manager.leave-requests') }}" class="nav-link"><i class="fa-regular fa-envelope"></i> Leave Requests</a>
             </div>
 
             <div class="mt-auto pt-3 border-top border-secondary-subtle">
@@ -260,49 +258,43 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($teamAttendance as $emp)
-                            @php
-                            $checkIn = isset($emp->check_in) && $emp->check_in ? date('H:i', strtotime($emp->check_in)) : '--';
-                                $checkOut = isset($emp->check_out) && $emp->check_out ? date('H:i', strtotime($emp->check_out)) : '--';
-                                
-                                $hours = '--';
-                                if (isset($emp->check_in, $emp->check_out) && $emp->check_in && $emp->check_out) {
-                                    $start = \Carbon\Carbon::parse($emp->check_in);
-                                    $end = \Carbon\Carbon::parse($emp->check_out);
-                                    $diff = $start->diff($end);
-                                    $hours = $diff->h . 'h ' . $diff->i . 'm';
-                                }
 
-                                $status = $emp->status ?? (isset($emp->check_in) && $emp->check_in ? 'Present' : 'Absent');
-                                $statusClass = match(strtolower($status)) {
-                                    'present' => 'badge-present',
-                                    'half day' => 'badge-halfday',
-                                    default => 'badge-absent'
-                                };
-                            @endphp
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <div class="avatar-circle">
-                                            {{ strtoupper(substr($emp->name ?? 'E', 0, 2)) }}
-                                        </div>
-                                        <div class="text-white fw-semibold">{{ $emp->name ?? 'Employee' }}</div>
-                                    </div>
-                                </td>
-                                <td style="color: #94a3b8;">{{ $emp->position_name ?? 'Developer' }}</td>
-                                <td class="{{ $checkIn != '--' ? 'time-green' : 'time-muted' }}">{{ $checkIn }}</td>
-                                <td class="text-white-50">{{ $checkOut }}</td>
-                                <td class="text-white-50">{{ $hours }}</td>
-                                <td><span class="{{ $statusClass }}">{{ ucfirst($status) }}</span></td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="6" class="text-center py-4 text-muted">
-                                    No team attendance records found for today.
-                                </td>
-                            </tr>
-                            @endforelse
-                        </tbody>
+    @forelse($teamAttendance as $emp)
+        <tr>
+            <td>
+                <div class="d-flex align-items-center gap-2">
+                    <div class="avatar-circle">
+                        {{ strtoupper(substr($emp->name, 0, 2)) }}
+                    </div>
+                    <div class="text-white fw-semibold">{{ $emp->name }}</div>
+                </div>
+            </td>
+            <td>{{ $emp->position ?? 'Developer' }}</td>
+            <td class="{{ $emp->check_in ? 'time-green' : 'time-muted' }}">
+                {{ $emp->check_in ? \Carbon\Carbon::parse($emp->check_in)->format('H:i') : '--' }}
+            </td>
+            <td class="text-white-50">
+                {{ $emp->check_out ? \Carbon\Carbon::parse($emp->check_out)->format('H:i') : '--' }}
+            </td>
+            <td class="text-white-50">{{ $emp->hours ?? '--' }}</td>
+            <td>
+                @php
+                    $statusClass = match(strtolower($emp->status ?? 'absent')) {
+                        'present' => 'badge-present',
+                        'half day' => 'badge-halfday',
+                        default => 'badge-absent'
+                    };
+                @endphp
+                <span class="{{ $statusClass }}">{{ ucfirst($emp->status ?? 'Absent') }}</span>
+            </td>
+        </tr>
+    @empty
+        <tr>
+            <td colspan="6" class="text-center text-muted py-4">No attendance records for today.</td>
+        </tr>
+    @endforelse
+</tbody>
+
                     </table>
                 </div>
             </div>

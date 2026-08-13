@@ -508,7 +508,8 @@
             {{ $employees->links() }}
         </div>
 
-    </div>
+
+    @endforeach
 
     </div>
 

@@ -2,28 +2,29 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
-use App\Models\Role;
 
-#[Fillable(['name', 'email', 'password','role_id'])]
-#[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'phone',
+        'address',
+        'role_id',
+    ];
+
+    #[Hidden(['password', 'remember_token'])]
+
     protected function casts(): array
     {
         return [
@@ -31,30 +32,24 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    protected $fillable = [
-    'name',
-    'email',
-    'password',
-    'phone',    
-    'address',  
-];
 
-
-
-    public function role():BelongsTo{
+    public function role(): BelongsTo
+    {
         return $this->belongsTo(Role::class);
     }
 
+    public function employee()
+    {
+        return $this->hasOne(Employee::class);
+    }
+
     public function salaries()
-{
-    return $this->hasMany(Salary::class);
-}
-public function employee()
-{
-    return $this->hasOne(Employee::class);
-}
- public function managedDepartments()
-{
-    return $this->hasMany(Department::class, 'manager_id');
-}
+    {
+        return $this->hasMany(Salary::class, 'employee_id');
+    }
+
+    public function managedDepartments()
+    {
+        return $this->hasMany(Department::class, 'manager_id');
+    }
 }
