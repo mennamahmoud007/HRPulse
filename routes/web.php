@@ -145,11 +145,3 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     })->name('admin.dashboard');
 });
 
-
-// =========================
-// Reports
-// =========================
-
-Route::get('/reports', function () {
-    return 'Reports';
-})->name('reports');

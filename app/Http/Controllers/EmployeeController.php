@@ -10,6 +10,7 @@ use App\Models\Position;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Role;
 
 class EmployeeController extends Controller
 {
@@ -72,14 +73,14 @@ class EmployeeController extends Controller
         $data = $request->validated();
 
         DB::transaction(function () use ($data, $request) {
-            // 1. إنشاء حساب المستخدم بالحقول الخاصة به فقط
+            $employeeRole = Role::where('name', 'employee')->firstOrFail();
             $user = User::create([
                 'name'     => $data['name'],
                 'email'    => $data['email'],
                 'password' => bcrypt($data['password']),
+                'role_id'  => $employeeRole->id,
             ]);
 
-            // 2. إنشاء بيانات الموظف
             $employee = Employee::create([
                 'user_id'       => $user->id,
                 'department_id' => $data['department_id'] ?? null,
@@ -90,13 +91,12 @@ class EmployeeController extends Controller
                 'status'        => $data['status'] ?? 'active',
             ]);
 
-            // 3. رفع الصورة إن وجدت
+           
             if ($request->hasFile('photo')) {
                 $photoPath = $request->file('photo')->store('employees', 'public');
                 $employee->update(['photo' => $photoPath]);
             }
 
-            // 4. إضافة الراتب إن وجد
             if (isset($data['basic'])) {
                 $basic     = $data['basic'];
                 $bonus     = $data['bonus'] ?? 0;
