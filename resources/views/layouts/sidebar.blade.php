@@ -31,6 +31,10 @@
            class="nav-link {{ request()->routeIs('manager.leave-requests') ? 'active' : '' }}">
             <i class="fa-regular fa-envelope"></i> Leave Requests
         </a>
+        <a href="{{ route('profile') }}"
+        class="nav-link {{ request()->routeIs('profile') ? 'active' : '' }}">
+            <i class="fa-regular fa-circle-user"></i>My Profile
+        </a>
     </div>
 
     <!-- User Profile & Logout Section -->

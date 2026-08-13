@@ -70,7 +70,7 @@
                                                 {{ strtoupper(substr($request->user->name ?? 'U', 0, 2)) }}
                                             </div>
                                             <div>
-                                                <div class="text-white fw-semibold">{{ $request->user->name ?? 'N/A' }}</div>
+                                                <div class="text-white fw-semibold">{{ $request->employee->user->name ?? 'N/A' }}</div>
                                                 <div style="font-size: 0.75rem; color: #475569;">
                                                     {{ $request->start_date }} → {{ $request->end_date }}
                                                 </div>
@@ -78,8 +78,8 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <span class="{{ strtolower($request->type) == 'sick' ? 'type-sick' : 'type-annual' }}">
-                                            {{ ucfirst($request->type ?? 'Leave') }}
+                                        <span class="{{ strtolower($request->leave_type) == 'sick' ? 'type-sick' : 'type-annual' }}">
+                                            {{ ucfirst($request->leave_type ?? 'Leave') }}
                                         </span>
                                     </td>
                                     <td>
