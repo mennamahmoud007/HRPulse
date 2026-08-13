@@ -75,7 +75,13 @@
 
         <!-- Main Content -->
         <div class="col-md-10 p-4 px-5">
-
+            <!-- Page Title -->
+            <div class="mb-4">
+                <h3 class="text-white fw-bold mb-1">MY ATTENDANCE</h3>
+                <p style="font-size: 0.85rem; color: #64748b;" class="mb-0">
+                    {{ \Carbon\Carbon::now()->format('l, F j, Y') }} • Welcome back, {{ $userName }}!
+                </p>
+            </div>
             <!-- 4 Stat Cards -->
             <div class="row g-4 mb-4">
                 <div class="col-md-3">

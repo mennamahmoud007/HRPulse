@@ -70,6 +70,11 @@
 
         <!-- Main Content -->
         <div class="col-md-10 p-4 px-5">
+
+            <!-- Page Title -->
+            <div class="mb-4">
+                <h3 class="text-white fw-bold mb-1">My Salary</h3>
+            </div>
             <!-- Main Breakdown Card -->
             <div class="card-box mb-4">
                 <div class="d-flex justify-content-between align-items-center mb-4">

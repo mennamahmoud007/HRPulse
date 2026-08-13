@@ -47,17 +47,17 @@
                 <span>My Profile</span>
             </a>
 
-            <a href="{{ route('salary.employee') }}" class="{{ request()->routeIs('salary.employee') ? 'active' : '' }}">
+            <a href="{{ route('employee.salary') }}" class="{{ request()->routeIs('employee.salary') ? 'active' : '' }}">
                 <i class="fa-solid fa-dollar-sign"></i>
                 <span>My Salary</span>
             </a>
 
-            <a href="{{ route('attendance') }}" class="{{ request()->routeIs('attendance') ? 'active' : '' }}">
+            <a href="{{ route('employee.attendance') }}" class="{{ request()->routeIs('employee.attendance') ? 'active' : '' }}">
                 <i class="fa-regular fa-clock"></i>
                 <span>Attendance History</span>
             </a>
 
-            <a href="{{ route('leave-requests') }}" class="{{ request()->routeIs('leave-requests*') ? 'active' : '' }}">
+            <a href="{{ route('employee.leaves') }}" class="{{ request()->routeIs('employee.leaves') ? 'active' : '' }}">
                 <i class="fa-regular fa-envelope"></i>
                 <span>Leave Requests</span>
             </a>

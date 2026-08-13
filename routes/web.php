@@ -63,34 +63,27 @@ Route::middleware('auth')->group(function () {
     Route::put('/profile/password', [ProfileController::class, 'updatePassword'])
         ->name('profile.password');
 });
-
-
-// =========================
-// Employee Dashboard
-// =========================
-
-Route::get('/employee/dashboard', [EmployeeDashboardController::class, 'index'])
-    ->middleware(['auth', 'role:employee'])
-    ->name('employee.dashboard');
-
+   
 
 // =========================
 // Employee
 // =========================
 
 Route::middleware(['auth', 'role:employee'])->group(function () {
+    Route::get('/employee/dashboard', [EmployeeDashboardController::class, 'index'])
+        ->name('employee.dashboard');
 
-    Route::get('/salaries', [SalaryController::class, 'index'])
-        ->name('salary.employee');
+    Route::get('/salaries', [SalaryController::class, 'employeeSalaries'])
+        ->name('employee.salary');
 
     Route::get('/attendance', [AttendanceController::class, 'index'])
-        ->name('attendance');
+        ->name('employee.attendance');
 
     Route::get('/leave-requests', [LeaveRequestController::class, 'index'])
-        ->name('leave-requests');
+        ->name('employee.leaves');
 
     Route::post('/leave-requests', [LeaveRequestController::class, 'store'])
-        ->name('leave-requests.store');
+        ->name('employee.leaves.store');
 });
 
 
