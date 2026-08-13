@@ -1,17 +1,37 @@
-<!DOCTYPE html><html>
-<head>
-    <title>Edit Department</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
+@extends('layouts.app')
+@section('content')
 <style>
-    body {
-        background-color: #0f172a;
-        color: white;
+    .edit-container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        min-height: calc(100vh - 60px);
+        padding: 24px 0;
     }
 
-    .card {
+    .edit-card {
         background-color: #1e293b;
         border-radius: 15px;
         padding: 30px;
+        width: 100%;
+        max-width: 650px;
+        border: 1px solid #334155;
+    }
+
+    .edit-card label {
+        color: white;
+        margin-bottom: 8px;
+    }
+
+    .edit-card .form-control,
+    .edit-card .form-select {
+        background-color: #334155;
+        color: white;
+        border: 1px solid #475569;
+    }
+
+    .edit-card .form-control::placeholder {
+        color: #cbd5e1;
     }
 
     .btn-purple {
@@ -24,12 +44,11 @@
         opacity: 0.9;
     }
 
-    label {
-        margin-bottom: 8px;
-    }
 </style>
 
-</head><body class="d-flex justify-content-center align-items-center vh-100"><div class="card col-md-6"><h3 class="mb-4 text-white">Edit Department</h3>
+<div class="edit-container">
+    <div class="edit-card">
+        <h3 class="mb-4 text-white">Edit Department</h3>
 
 <form action="{{ route('departments.update', $department->id) }}" method="POST">
     @csrf
@@ -91,5 +110,6 @@
 
 </form>
 
-</div></body>
-</html>
+</div>
+</div>
+@endsection

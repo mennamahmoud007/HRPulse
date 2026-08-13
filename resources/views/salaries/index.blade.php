@@ -1,84 +1,66 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Salaries</title>
+@extends('layouts.app')
+@section('content')
+<style>
+    .card {
+        background-color: #1e293b;
+        border: none;
+        border-radius: 15px;
+    }
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    .salary-card {
+        background-color: #1e293b;
+        border-radius: 15px;
+        padding: 20px;
+        height: 100%;
+    }
 
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    .salary-label {
+        color: #94a3b8;
+        font-size: 14px;
+    }
 
-    <style>
-        body {
-            background-color: #0f172a;
-            color: white;
-        }
+    .salary-value {
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+    }
 
-        .card {
-            background-color: #1e293b;
-            border: none;
-            border-radius: 15px;
-        }
+    .table {
+        --bs-table-bg: #1e293b;
+        --bs-table-color: white;
+        --bs-table-border-color: #334155;
+    }
 
-        .salary-card {
-            background-color: #1e293b;
-            border-radius: 15px;
-            padding: 20px;
-            height: 100%;
-        }
+    .table th,
+    .table td {
+        color: white;
+        vertical-align: middle;
+    }
 
-        .salary-label {
-            color: #94a3b8;
-            font-size: 14px;
-        }
+    .btn-purple {
+        background: linear-gradient(to right, #7c3aed, #9333ea);
+        color: white;
+        border: none;
+    }
 
-        .salary-value {
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-        }
+    .btn-purple:hover {
+        opacity: 0.9;
+        color: white;
+    }
 
-        .table {
-            --bs-table-bg: #1e293b;
-            --bs-table-color: white;
-            --bs-table-border-color: #334155;
-        }
+    .search-box {
+        background-color: #334155;
+        color: white;
+        border: 1px solid #475569;
+    }
 
-        .table th,
-        .table td {
-            color: white;
-            vertical-align: middle;
-        }
+    .search-box::placeholder {
+        color: #cbd5e1;
+    }
+</style>
 
-        .btn-purple {
-            background: linear-gradient(to right, #7c3aed, #9333ea);
-            color: white;
-            border: none;
-        }
+<div class="container-fluid py-2">
 
-        .btn-purple:hover {
-            opacity: 0.9;
-            color: white;
-        }
-
-        .search-box {
-            background-color: #334155;
-            color: white;
-            border: 1px solid #475569;
-        }
-
-        .search-box::placeholder {
-            color: #cbd5e1;
-        }
-    </style>
-</head>
-
-<body>
-
-    <div class="positions-container">
-        
-    <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-2">
 
         <div>
@@ -221,10 +203,9 @@
 
     </div>
 
-</div>
+    </div>
 
-
-<!-- Search Script -->
+    <!-- Search Script -->
 <script>
 
     document.getElementById('salarySearch').addEventListener('keyup', function () {
@@ -249,5 +230,4 @@
 
 </script>
 
-</body>
-</html>
+@endsection

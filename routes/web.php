@@ -111,6 +111,10 @@ Route::middleware(['auth', 'role:hr'])->group(function () {
 
     Route::get('/hr/salaries', [SalaryController::class, 'index'])
         ->name('hr.salaries');
+    Route::get('/hr/leave-requests', [LeaveRequestController::class, 'index'])
+    ->name('hr.leave-requests');
+        Route::get('/hr/attendance', [AttendanceController::class, 'index'])
+        ->name('hr.attendance');
 });
 
 

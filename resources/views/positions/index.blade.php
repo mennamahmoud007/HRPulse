@@ -1,55 +1,36 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Positions</title>
+@extends('layouts.app')
+@section('content')
+<style>
+    .card {
+        background-color: #1e293b;
+        border: none;
+        border-radius: 15px;
+    }
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    .table {
+        --bs-table-bg: #1e293b;
+        --bs-table-color: white;
+        --bs-table-border-color: #334155;
+    }
 
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    .table th,
+    .table td {
+        color: white;
+    }
 
-    <style>
-        body {
-            background-color: #0f172a;
-            color: white;
-        }
+    .btn-purple {
+        background: linear-gradient(to right, #7c3aed, #9333ea);
+        color: white;
+        border: none;
+    }
 
-        .card {
-            background-color: #1e293b;
-            border: none;
-            border-radius: 15px;
-        }
+    .btn-purple:hover {
+        opacity: 0.9;
+        color: white;
+    }
+</style>
 
-        .table {
-            --bs-table-bg: #1e293b;
-            --bs-table-color: white;
-            --bs-table-border-color: #334155;
-        }
-
-        .table th,
-        .table td {
-            color: white;
-        }
-
-        .btn-purple {
-            background: linear-gradient(to right, #7c3aed, #9333ea);
-            color: white;
-            border: none;
-        }
-
-        .btn-purple:hover {
-            opacity: 0.9;
-            color: white;
-        }
-    </style>
-</head>
-
-<body >
-    
-    <div class="positions-container">
-
-<div class="container">
+<div class="container-fluid py-2">
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Positions</h2>
@@ -63,10 +44,10 @@
                 + Add Position
             </a>
         </div>
-        
-    <div class="card p-4 positions-card">
-        
-        <table class="table">
+
+        <div class="card p-4 positions-card">
+
+            <table class="table">
 
             <thead>
                 <tr>
@@ -132,6 +113,4 @@
     </div>
 
 </div>
-
-</body>
-</html>
+@endsection

@@ -1,4 +1,18 @@
 <aside class="sidebar">
+    @php
+        $currentUser = auth()->user();
+        $roleName = $currentUser?->role?->name ?? 'user';
+        $userName = $currentUser?->name ?? 'User';
+        $userEmail = $currentUser?->email ?? 'user@corp.io';
+        $userInitials = strtoupper(substr($userName, 0, 2));
+
+        $roleLabel = match ($roleName) {
+            'employee' => 'EMPLOYEE',
+            'hr' => 'HR ADMINISTRATOR',
+            'manager' => 'ENGINEERING MANAGER',
+            default => strtoupper($roleName),
+        };
+    @endphp
 
     {{-- Logo --}}
     <div class="sidebar-logo">
@@ -11,7 +25,7 @@
             <h2>HRPulse</h2>
 
             <span class="brand-badge">
-                {{ strtoupper(auth()->user()->role->name) }}
+                {{ $roleLabel }}
             </span>
         </div>
 
@@ -21,105 +35,90 @@
     {{-- Navigation --}}
     <nav class="sidebar-nav">
 
-        @if(auth()->user()->role->name === 'employee')
+        @if($roleName === 'employee')
 
-            <a href="{{ route('employee.dashboard') }}">
+            <a href="{{ route('employee.dashboard') }}" class="{{ request()->routeIs('employee.dashboard') ? 'active' : '' }}">
                 <i class="fa-solid fa-border-all"></i>
                 <span>Dashboard</span>
             </a>
 
-            <a href="{{ route('profile') }}">
+            <a href="{{ route('profile') }}" class="{{ request()->routeIs('profile') ? 'active' : '' }}">
                 <i class="fa-regular fa-circle-user"></i>
                 <span>My Profile</span>
             </a>
 
-            <a href="{{ route('salaries') }}">
+            <a href="{{ route('salary.employee') }}" class="{{ request()->routeIs('salary.employee') ? 'active' : '' }}">
                 <i class="fa-solid fa-dollar-sign"></i>
                 <span>My Salary</span>
             </a>
 
-            <a href="{{ route('attendance') }}">
+            <a href="{{ route('attendance') }}" class="{{ request()->routeIs('attendance') ? 'active' : '' }}">
                 <i class="fa-regular fa-clock"></i>
                 <span>Attendance History</span>
             </a>
 
-            <a href="{{ route('leave-requests') }}">
+            <a href="{{ route('leave-requests') }}" class="{{ request()->routeIs('leave-requests*') ? 'active' : '' }}">
                 <i class="fa-regular fa-envelope"></i>
                 <span>Leave Requests</span>
             </a>
 
 
-        @elseif(auth()->user()->role->name === 'hr')
+        @elseif($roleName === 'hr')
 
-            <a href="{{ route('hr.dashboard') }}">
+            <a href="{{ route('hr.dashboard') }}" class="{{ request()->routeIs('hr.dashboard') ? 'active' : '' }}">
                 <i class="fa-solid fa-border-all"></i>
                 <span>Dashboard</span>
             </a>
 
-            <a href="{{ route('employees.index') }}">
+            <a href="{{ route('employees.index') }}" class="{{ request()->routeIs('employees.*') ? 'active' : '' }}">
                 <i class="fa-regular fa-user"></i>
                 <span>Employees</span>
             </a>
 
-            <a href="{{ route('departments.index') }}">
+            <a href="{{ route('departments.index') }}" class="{{ request()->routeIs('departments.*') ? 'active' : '' }}">
                 <i class="fa-regular fa-building"></i>
                 <span>Departments</span>
             </a>
 
-            <a href="{{ route('positions.index') }}">
+            <a href="{{ route('positions.index') }}" class="{{ request()->routeIs('positions.*') ? 'active' : '' }}">
                 <i class="fa-solid fa-briefcase"></i>
                 <span>Positions</span>
             </a>
 
-            <a href="{{ route('hr.salaries') }}">
+            <a href="{{ route('hr.salaries') }}" class="{{ request()->routeIs('hr.salaries') ? 'active' : '' }}">
                 <i class="fa-solid fa-dollar-sign"></i>
                 <span>Salaries</span>
             </a>
 
-            <a href="{{ route('hr.attendance') }}">
-                <i class="fa-regular fa-clock"></i>
-                <span>Attendance</span>
-            </a>
-
-            <a href="{{ route('hr.leave-requests') }}">
-                <i class="fa-regular fa-envelope"></i>
-                <span>Leave Requests</span>
-            </a>
-
-            <a href="{{ route('reports') }}">
-                <i class="fa-solid fa-chart-simple"></i>
-                <span>Reports</span>
-            </a>
-
-            <a href="{{ route('profile') }}">
+            <a href="{{ route('profile') }}" class="{{ request()->routeIs('profile') ? 'active' : '' }}">
                 <i class="fa-regular fa-circle-user"></i>
                 <span>My Profile</span>
             </a>
 
 
-        @elseif(auth()->user()->role->name === 'manager')
+        @elseif($roleName === 'manager')
 
-            <a href="{{ route('manager.dashboard') }}">
+            <a href="{{ route('manager.dashboard') }}" class="{{ request()->routeIs('manager.dashboard') ? 'active' : '' }}">
                 <i class="fa-solid fa-border-all"></i>
                 <span>Dashboard</span>
             </a>
 
-            <a href="{{ route('manager.attendance') }}">
+            <a href="{{ route('manager.team-employees') }}" class="{{ request()->routeIs('manager.team-employees') ? 'active' : '' }}">
+                <i class="fa-regular fa-user"></i>
+                <span>Team Employees</span>
+            </a>
+
+            <a href="{{ route('manager.attendance') }}" class="{{ request()->routeIs('manager.attendance') ? 'active' : '' }}">
                 <i class="fa-regular fa-clock"></i>
                 <span>Attendance</span>
             </a>
 
-            <a href="{{ route('manager.leave-requests') }}">
+            <a href="{{ route('manager.leave-requests') }}" class="{{ request()->routeIs('manager.leave-requests') ? 'active' : '' }}">
                 <i class="fa-regular fa-envelope"></i>
                 <span>Leave Requests</span>
             </a>
 
-            <a href="{{ route('performance') }}">
-                <i class="fa-solid fa-chart-simple"></i>
-                <span>Performance</span>
-            </a>
-
-            <a href="{{ route('profile') }}">
+            <a href="{{ route('profile') }}" class="{{ request()->routeIs('profile') ? 'active' : '' }}">
                 <i class="fa-regular fa-circle-user"></i>
                 <span>My Profile</span>
             </a>
@@ -135,17 +134,17 @@
         <div class="sidebar-user">
 
             <div class="user-avatar">
-                {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
+                {{ $userInitials }}
             </div>
 
             <div class="user-details">
 
                 <div class="user-name">
-                    {{ auth()->user()->name }}
+                    {{ $userName }}
                 </div>
 
                 <div class="user-email">
-                    {{ auth()->user()->email }}
+                    {{ $userEmail }}
                 </div>
 
             </div>

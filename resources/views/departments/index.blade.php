@@ -2,70 +2,69 @@
 
 @section('content')
 <style>
-    .custom-card { 
-        background-color: #1e293b !important; 
-        border: 1px solid #334155 !important; 
-        border-radius: 12px; 
-    }
-    
-    .table-dark-custom { 
-        background-color: #1e293b !important; 
-        color: #f8fafc !important; 
-        margin-bottom: 0; 
-    }
-    
-    .table-dark-custom thead th { 
-        background-color: #1a2333 !important; 
-        color: #64748b !important; 
-        font-size: 0.75rem; 
-        font-weight: 700; 
-        letter-spacing: 0.05em; 
-        border-bottom: 1px solid #334155 !important; 
-        padding: 16px 20px; 
-    }
-    
-    .table-dark-custom tbody tr { 
-        background-color: #1e293b !important; 
-        border-bottom: 1px solid #334155 !important; 
-    }
-    
-    .table-dark-custom tbody tr:hover { 
-        background-color: #26334d !important; 
-    }
-    
-    .table-dark-custom td { 
-        padding: 16px 20px; 
-        vertical-align: middle; 
-        background-color: transparent !important; 
-        color: #e2e8f0 !important; 
+    .custom-card {
+        background-color: #1e293b !important;
+        border: 1px solid #334155 !important;
+        border-radius: 12px;
     }
 
-</head>
-<body>
-    <div class="positions-container">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Departments</h2>
-
-    
-    .btn-purple:hover { 
-        color: white; 
-        opacity: 0.9; 
+    .table-dark-custom {
+        background-color: #1e293b !important;
+        color: #f8fafc !important;
+        margin-bottom: 0;
     }
 
-    .action-btn { 
-        background: transparent; 
-        border: none; 
-        padding: 6px 10px; 
-        border-radius: 6px; 
-        text-decoration: none; 
-        display: inline-block; 
+    .table-dark-custom thead th {
+        background-color: #1a2333 !important;
+        color: #64748b !important;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        border-bottom: 1px solid #334155 !important;
+        padding: 16px 20px;
+    }
+
+    .table-dark-custom tbody tr {
+        background-color: #1e293b !important;
+        border-bottom: 1px solid #334155 !important;
+    }
+
+    .table-dark-custom tbody tr:hover {
+        background-color: #26334d !important;
+    }
+
+    .table-dark-custom td {
+        padding: 16px 20px;
+        vertical-align: middle;
+        background-color: transparent !important;
+        color: #e2e8f0 !important;
+    }
+
+    .btn-purple {
+        background: linear-gradient(to right, #7c3aed, #9333ea);
+        color: white;
+        border: none;
+    }
+
+    .btn-purple:hover {
+        color: white;
+        opacity: 0.9;
+    }
+
+    .action-btn {
+        background: transparent;
+        border: none;
+        padding: 6px 10px;
+        border-radius: 6px;
+        text-decoration: none;
+        display: inline-block;
         cursor: pointer;
     }
-    
-    .action-btn:hover { 
-        background-color: #334155; 
+
+    .action-btn:hover {
+        background-color: #334155;
     }
-    
+
     .manager-badge {
         background-color: rgba(99, 102, 241, 0.15);
         color: #818cf8;
@@ -74,7 +73,7 @@
         font-size: 0.85rem;
         font-weight: 500;
     }
-    
+
     .no-manager-badge {
         background-color: rgba(100, 116, 139, 0.2);
         color: #94a3b8;
