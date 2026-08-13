@@ -119,9 +119,9 @@
                         <tr>
                             <td class="fw-semibold text-white fs-6">{{ $department->name }}</td>
                             <td>
-                                <span class="{{ $department->manager?->user?->name ? 'manager-badge' : 'no-manager-badge' }}">
-                                    {{ $department->manager?->user?->name ?? 'No Manager' }}
-                                </span>
+                                <span class="{{ $department->manager?->name ? 'manager-badge' : 'no-manager-badge' }}">
+    {{ $department->manager?->name ?? 'No Manager' }}
+</span>
                             </td>
                             <td class="text-end">
                                 {{-- زر التعديل --}}
